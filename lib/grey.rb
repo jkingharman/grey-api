@@ -1,1 +1,2 @@
-require_relative "./grey/v0"
+require "grape"
+require_relative "./grey/api_aggregator"
