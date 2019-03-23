@@ -6,8 +6,10 @@ ruby "2.5.1"
 
 gem "activerecord"
 gem "grape"
+gem "pg"
 gem "json"
 gem "puma"
+gem "rake"
 
 group :development do
   gem "pry"
