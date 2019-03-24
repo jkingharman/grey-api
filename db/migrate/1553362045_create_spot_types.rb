@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateSpotTypes < ActiveRecord::Migration[5.2]
   create_table :spot_types do |t|
     t.references :spot

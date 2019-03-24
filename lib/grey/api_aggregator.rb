@@ -1,4 +1,6 @@
-require_relative "v0"
+# frozen_string_literal: true
+
+require_relative 'v0'
 
 module Grey
   class ApiAggregator < Grape::API

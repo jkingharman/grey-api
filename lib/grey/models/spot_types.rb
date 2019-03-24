@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Grey
   module Models
     class SpotType < ActiveRecord::Base

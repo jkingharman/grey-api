@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Grey
   class V0 < Grape::API
     version 'v0', using: :path
@@ -7,7 +9,7 @@ module Grey
 
     resource :spots do
       get :latest do
-        { response: "wahoo" }
+        { response: 'wahoo' }
       end
     end
   end
