@@ -1,18 +1,18 @@
 # frozen_string_literal: true
 
 module Grey
-  class SpotTypesSerializer < Grey::BaseSerializer
+  class SpotSerializer < Grey::BaseSerializer
     def api(obj)
       {
         id: obj.id,
         name: obj.name,
         slug: obj.slug,
         created_at: obj.created_at,
-        spots: spot_serializer.serialize(obj.spots)
+        spot_type: spot_types_serializer.serialize(obj.spot_type)
       }
     end
 
-    def nested_spot_types(obj)
+    def nested_spots(obj)
       {
         name: obj.name,
         slug: obj.slug
@@ -21,8 +21,8 @@ module Grey
 
     private
 
-    def spot_serializer
-      @serializer ||= SpotsSerializer.new(:nested_spots)
+    def spot_types_serializer
+      @serializer ||= SpotTypeSerializer.new(:nested_spot_types)
     end
   end
 end

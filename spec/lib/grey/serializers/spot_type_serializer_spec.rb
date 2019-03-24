@@ -2,7 +2,7 @@
 
 require_relative '../../../spec_helper'
 
-describe Grey::SpotTypesSerializer do
+describe Grey::SpotTypeSerializer do
   let(:spot) do
     Grey::Models::Spot.new(
       id: 1,
@@ -23,7 +23,7 @@ describe Grey::SpotTypesSerializer do
 
   describe '#api' do
     it 'serializes the full model' do
-      expect(Grey::SpotTypesSerializer.new(:api).serialize(spot_type)).to eq(
+      expect(Grey::SpotTypeSerializer.new(:api).serialize(spot_type)).to eq(
         id: 1, name: 'Plaza', slug: 'plaza', created_at: nil,
         spots: [{ name: 'Canada Water', slug: 'canada_water' }]
       )
