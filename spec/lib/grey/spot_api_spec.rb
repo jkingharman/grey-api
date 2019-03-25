@@ -2,10 +2,10 @@
 
 require_relative '../../spec_helper'
 
-describe Grey::V0 do
+describe Grey::SpotAPI do
   include Rack::Test::Methods
 
-  let(:app) { Grey::V0 }
+  let(:app) { Grey::SpotAPI }
 
   describe 'spots' do
     it 'gets the latest' do

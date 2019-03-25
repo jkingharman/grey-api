@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Grey
-  class V0 < Grape::API
+  class SpotAPI < Grape::API
     version 'v0', using: :path
 
     format :json
