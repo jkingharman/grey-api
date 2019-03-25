@@ -11,7 +11,7 @@ module Grey
     end
 
     def serialize(ar_obj)
-      return if ar_obj.nil?
+      return nil if ar_obj.nil?
 
       if ar_obj.respond_to?(:map)
         ar_obj.map { |o| serialize(o) }
