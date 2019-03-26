@@ -26,13 +26,13 @@ module Grey
       end
 
       get ":id" do
-        spot = Models::Spot.find(id: params[:id])
+        spot = Models::Spot.find_by(id: params[:id]) || raise(NotFound)
         serialize(spot)
       end
 
       delete ":id" do
         authenticate! # dummy for now
-        spot = spot = Models::Spot.find(params[:id])
+        spot = spot = Models::Spot.find_by(params[:id]) || raise(NotFound)
         spot.destroy
         serialize(spot)
       end
