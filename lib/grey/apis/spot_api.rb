@@ -2,7 +2,7 @@
 
 module Grey
   class SpotAPI < Grape::API
-
+    # Return to add errors.
     version 'v0', using: :path
 
     format :json
@@ -26,7 +26,14 @@ module Grey
       end
 
       get ":id" do
-        spot = Models::Spot.first(id: params[:id])
+        spot = Models::Spot.find(id: params[:id])
+        serialize(spot)
+      end
+
+      delete ":id" do
+        authenticate! # dummy for now
+        spot = spot = Models::Spot.find(params[:id])
+        spot.destroy
         serialize(spot)
       end
     end
