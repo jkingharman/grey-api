@@ -2,9 +2,7 @@
 
 module Grey
   class SpotAPI < Grape::API
-    # Todo implement an error class so serving useful errors is easy.
-    # spec the code correctly.
-    
+
     version 'v0', using: :path
 
     format :json
@@ -28,7 +26,7 @@ module Grey
       end
 
       get ":id" do
-        spot = Models::Spot.find(params[:id].to_i)
+        spot = Models::Spot.first(id: params[:id])
         serialize(spot)
       end
     end
