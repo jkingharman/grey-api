@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Grey
+  # consistent file struct require module here.
   class SpotAPI < Grape::API
     version 'v0', using: :path
 
@@ -8,7 +9,7 @@ module Grey
     default_error_status :json
 
     helpers do
-      def authenticate!; end
+      include Api::Helpers
 
       def serializer
         @serializer ||= SpotSerializer.new(:api)

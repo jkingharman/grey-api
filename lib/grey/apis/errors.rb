@@ -1,4 +1,5 @@
 module Grey
+  # consistent file struct require module here.
   class ApiError < StandardError
     attr_accessor :status
 
