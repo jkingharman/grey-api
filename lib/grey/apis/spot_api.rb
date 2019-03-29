@@ -30,31 +30,18 @@ module Grey
         serialize(spot)
       end
 
-      params do
-        requires :spot, type: Hash do
-          requires :name, type: String
-          requires :slug, type: String
-        end
-      end
-
       post do
         authenticate!
+        required_params!(:spot)
         spot = Models::Spot.create!(
           name: params[:spot][:name], slug: params[:spot][:slug]
         )
         serialize(spot)
       end
 
-      params do
-        requires :spot, type: Hash do
-          requires :name, type: String
-          requires :slug, type: String
-        end
-      end
-
       put ":id" do
         authenticate!
-
+        required_params!(:spot)
         spot = Models::Spot.find_by(id: params[:id]) || raise(ApiError::NotFound)
         spot.update(
           name: params[:spot][:name], slug: params[:spot][:slug]
@@ -64,7 +51,6 @@ module Grey
 
       delete ":id" do
         authenticate!
-
         spot = spot = Models::Spot.find_by(id: params[:id]) || raise(ApiError::NotFound)
         spot.destroy
         serialize(spot)

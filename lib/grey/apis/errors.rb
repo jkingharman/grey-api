@@ -13,5 +13,11 @@ module Grey
         super((message || "Not found"), 404)
       end
     end
+
+    class MissingParam < ApiError
+      def initialize(message=nil)
+        super((message || "Missing Params"), 422)
+      end
+    end
   end
 end

@@ -73,7 +73,7 @@ describe Grey::SpotAPI do
 
     context 'put with attr' do
       it 'updates the spot' do
-        update_attr = {"name" => "New name", "slug" => "new_name"}
+        update_attr = {name: "New name", slug: "new_name"}.stringify_keys!
         allow(spot_one).to receive(:update).with(
           name: update_attr['name'], slug: update_attr['slug']
         ) { true }
