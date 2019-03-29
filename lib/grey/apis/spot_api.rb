@@ -2,7 +2,6 @@
 
 module Grey
   class SpotAPI < Grape::API
-    # Return to add errors.
     version 'v0', using: :path
 
     format :json
@@ -26,13 +25,46 @@ module Grey
       end
 
       get ":id" do
-        spot = Models::Spot.find_by(id: params[:id]) || raise(NotFound)
+        spot = Models::Spot.find_by(id: params[:id]) || raise(ApiError::NotFound)
+        serialize(spot)
+      end
+
+      params do
+        requires :spot, type: Hash do
+          requires :name, type: String
+          requires :slug, type: String
+        end
+      end
+
+      post do
+        authenticate!
+        spot = Models::Spot.create!(
+          name: params[:spot][:name], slug: params[:spot][:slug]
+        )
+        serialize(spot)
+      end
+
+      params do
+        requires :spot, type: Hash do
+          requires :name, type: String
+          requires :slug, type: String
+        end
+      end
+
+      put ":id" do
+        authenticate!
+
+        spot = Models::Spot.find_by(id: params[:id]) || raise(ApiError::NotFound)
+        spot.update(
+          name: params[:spot][:name], slug: params[:spot][:slug]
+        )
         serialize(spot)
       end
 
       delete ":id" do
-        authenticate! # dummy for now
-        spot = spot = Models::Spot.find_by(params[:id]) || raise(NotFound)
+        authenticate!
+
+        spot = spot = Models::Spot.find_by(id: params[:id]) || raise(ApiError::NotFound)
         spot.destroy
         serialize(spot)
       end

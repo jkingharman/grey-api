@@ -1,7 +1,9 @@
 module Grey
   class ApiError < StandardError
+    attr_accessor :status
+
     def initialize(message, status=500)
-      @status = status
+      self.status = status
       super(message)
     end
 
