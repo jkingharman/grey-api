@@ -33,8 +33,9 @@ module Grey
       post do
         authenticate!
         required_params!(:spot)
-        spot = Models::Spot.create!(
-          name: params[:spot][:name], slug: params[:spot][:slug]
+        spot_type = Models::SpotType.find_by(slug: params[:spot][:spot_type]) || raise(ApiError::NotFound)
+        spot = spot_type.spots.create!(
+          name: params[:spot][:name], slug: params[:spot][:slug],
         )
         serialize(spot)
       end

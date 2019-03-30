@@ -11,12 +11,20 @@ describe Grey::SpotAPI do
 
   let(:app) { Grey::SpotAPI }
 
+  let(:spot_type) do
+    Grey::Models::SpotType.new(
+      id: 1,
+      name: 'Plaza',
+      slug: 'plaza',
+    )
+  end
+
   let(:spot_one) do
     Grey::Models::Spot.new(
       id: 1,
       name: 'Canada Water',
       slug: 'canada_water',
-      spot_type: nil
+      spot_type_id: 1
     )
   end
 
@@ -25,7 +33,7 @@ describe Grey::SpotAPI do
       id: 2,
       name: 'Peckham curbs',
       slug: 'peckham_curbs',
-      spot_type: nil
+      spot_type_id: 1
     )
   end
 
@@ -59,11 +67,17 @@ describe Grey::SpotAPI do
       it 'creates a new spot' do
         spot_attr = serialize(spot_one)
 
+        allow(Grey::Models::SpotType).to receive(:find_by).with(
+          {slug: "plaza"}
+        ) { spot_type }
+
+        allow(spot_type).to receive(:spots) { Grey::Models::Spot }
+
         allow(Grey::Models::Spot).to receive(:create!).with(
           name: spot_attr['name'], slug: spot_attr['slug']
         ) { spot_one }
 
-         post '/v0/spots/', spot: spot_attr
+         post '/v0/spots/', spot: spot_attr.merge(spot_type: "plaza")
          expect(last_response.status).to eq 201
          expect(JSON.parse(last_response.body)).to eq serialize(
            spot_one

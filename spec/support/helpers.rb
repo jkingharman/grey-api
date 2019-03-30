@@ -1,21 +1,23 @@
 module Grey
   module Helpers
-    class Hash
-      def stringify_keys!
-        keys.each do |key|
-          self[key.to_s] = delete(key)
-        end
-        self
+    def stringify_keys(hash)
+      return hash unless hash.is_a?(Hash)
+
+      hash.keys.each do |key|
+        value = stringify_keys(hash.delete(key))
+        value = value.map { |e| stringify_keys(e) } if value.is_a?(Array)
+        hash[key.to_s] = value
       end
+      hash
     end
 
     def serialize_generic(serializer, type, obj)
       out = serializer.new(type).serialize(obj)
 
       if obj.respond_to?(:map)
-        out.map{ |o| o.stringify_keys! }
+        out.map{ |o| stringify_keys(o) }
       else
-        out.stringify_keys!
+        stringify_keys(out)
       end
     end
   end
