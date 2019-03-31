@@ -1,5 +1,11 @@
 module Grey
   module Helpers
+
+    def debug
+      require "pry"
+      binding.pry
+    end
+    
     def stringify_keys(hash)
       return hash unless hash.is_a?(Hash)
 
