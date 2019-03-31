@@ -52,9 +52,9 @@ module Grey
 
       delete ":id" do
         authorize!
-        spot = spot = Models::Spot.find_by(id: params[:id]) || raise(ApiError::NotFound)
+        spot = Models::Spot.find_by(id: params[:id]) || raise(ApiError::NotFound)
         spot.destroy
-        serialize(spot)
+        {}.to_json
       end
     end
   end
