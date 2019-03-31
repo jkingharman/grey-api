@@ -10,6 +10,7 @@ describe Grey::SpotAPI do
   end
 
   let(:app) { Grey::SpotAPI }
+  let(:env) { { 'HTTP_AUTHORIZATION' => "Basic " + Base64.encode64("user:secret") } }
 
   let(:spot_type) do
     Grey::Models::SpotType.new(
@@ -77,7 +78,7 @@ describe Grey::SpotAPI do
           name: spot_attr['name'], slug: spot_attr['slug']
         ) { spot_one }
 
-         post '/v0/spots/', spot: spot_attr.merge(spot_type: "plaza")
+         post '/v0/spots/', {spot: spot_attr.merge(spot_type: "plaza")}, env
          expect(last_response.status).to eq 201
          expect(JSON.parse(last_response.body)).to eq serialize(
            spot_one
@@ -92,7 +93,7 @@ describe Grey::SpotAPI do
           name: update_attr['name'], slug: update_attr['slug']
         ) { true }
 
-         put '/v0/spots/1', spot: update_attr
+         put '/v0/spots/1', {spot: update_attr}, env
          expect(JSON.parse(last_response.body)).to eq serialize(
            spot_one
          )
@@ -103,7 +104,7 @@ describe Grey::SpotAPI do
       it 'delete the correct spot' do
         allow(spot_one).to receive(:delete) { true }
 
-        delete "/v0/spots/1"
+        delete "/v0/spots/1", {}, env
         expect(last_response.status).to eq 200
         expect(JSON.parse(last_response.body)).to eq serialize(spot_one)
       end
