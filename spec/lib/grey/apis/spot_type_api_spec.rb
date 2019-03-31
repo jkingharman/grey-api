@@ -39,7 +39,7 @@ describe Grey::SpotTypeAPI do
         allow(Grey::Models::SpotType).to receive(:all) { [spot_type_one, spot_type_two] }
         get '/v0/spot_types'
         expect(last_response.status).to eq 200
-        expect(JSON.parse(last_response.body)).to eq serialize(
+        expect(response_body).to eq serialize(
           [spot_type_one, spot_type_two]
         )
       end
@@ -49,7 +49,7 @@ describe Grey::SpotTypeAPI do
       it 'returns the correct spot' do
          get '/v0/spot_types/1'
          expect(last_response.status).to eq 200
-         expect(JSON.parse(last_response.body)).to eq serialize(
+         expect(response_body).to eq serialize(
            spot_type_one
          )
       end
@@ -65,7 +65,7 @@ describe Grey::SpotTypeAPI do
 
          post '/v0/spot_types/', { spot_type: spot_type_attr }, env
          expect(last_response.status).to eq 201
-         expect(JSON.parse(last_response.body)).to eq serialize(
+         expect(response_body).to eq serialize(
            spot_type_one
          )
       end
@@ -79,7 +79,7 @@ describe Grey::SpotTypeAPI do
         ) { true }
 
          put '/v0/spot_types/1', {spot_type: update_attr}, env
-         expect(JSON.parse(last_response.body)).to eq serialize(
+         expect(response_body).to eq serialize(
            spot_type_one
          )
       end
@@ -91,7 +91,7 @@ describe Grey::SpotTypeAPI do
 
         delete "/v0/spot_types/1", {}, env
         expect(last_response.status).to eq 200
-        expect(JSON.parse(last_response.body)).to eq({}.to_json)
+        expect(response_body).to eq({}.to_json)
       end
     end
   end

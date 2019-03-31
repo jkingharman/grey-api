@@ -5,7 +5,11 @@ module Grey
       require "pry"
       binding.pry
     end
-    
+
+    def response_body
+      JSON.parse(last_response.body)
+    end
+
     def stringify_keys(hash)
       return hash unless hash.is_a?(Hash)
 

@@ -49,7 +49,7 @@ describe Grey::SpotAPI do
         allow(Grey::Models::Spot).to receive(:all) { [spot_one, spot_two] }
         get '/v0/spots'
         expect(last_response.status).to eq 200
-        expect(JSON.parse(last_response.body)).to eq serialize(
+        expect(response_body).to eq serialize(
           [spot_one, spot_two]
         )
       end
@@ -59,7 +59,7 @@ describe Grey::SpotAPI do
       it 'returns the correct spot' do
          get '/v0/spots/1'
          expect(last_response.status).to eq 200
-         expect(JSON.parse(last_response.body)).to eq serialize(
+         expect(response_body).to eq serialize(
            spot_one
          )
       end
@@ -81,7 +81,7 @@ describe Grey::SpotAPI do
 
          post '/v0/spots/', {spot: spot_attr.merge(spot_type: "plaza")}, env
          expect(last_response.status).to eq 201
-         expect(JSON.parse(last_response.body)).to eq serialize(
+         expect(response_body).to eq serialize(
            spot_one
          )
       end
@@ -95,7 +95,7 @@ describe Grey::SpotAPI do
         ) { true }
 
          put '/v0/spots/1', {spot: update_attr}, env
-         expect(JSON.parse(last_response.body)).to eq serialize(
+         expect(response_body).to eq serialize(
            spot_one
          )
       end
@@ -107,7 +107,7 @@ describe Grey::SpotAPI do
 
         delete "/v0/spots/1", {}, env
         expect(last_response.status).to eq 200
-        expect(JSON.parse(last_response.body)).to eq({}.to_json)
+        expect(response_body).to eq({}.to_json)
       end
     end
   end
