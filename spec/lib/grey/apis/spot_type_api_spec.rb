@@ -33,9 +33,9 @@ describe Grey::SpotTypeAPI do
     allow(Grey::Models::SpotType).to receive(:find_by).with(id: "1") { spot_type_one }
   end
 
-  describe 'spots' do
+  describe 'spot_types' do
     context 'get all' do
-      it 'returns all the spots' do
+      it 'returns all the spot types' do
         allow(Grey::Models::SpotType).to receive(:all) { [spot_type_one, spot_type_two] }
         get '/v0/spot_types'
         expect(last_response.status).to eq 200
@@ -46,7 +46,7 @@ describe Grey::SpotTypeAPI do
     end
 
     context 'get by ID' do
-      it 'returns the correct spot' do
+      it 'returns the correct spot type' do
          get '/v0/spot_types/1'
          expect(last_response.status).to eq 200
          expect(response_body).to eq serialize(
@@ -86,7 +86,7 @@ describe Grey::SpotTypeAPI do
         )
       end
 
-      it 'updates the spot' do
+      it 'updates the spot type' do
         update_attr = {name: "New name", slug: "new_name"}.stringify_keys!
         allow(spot_type_one).to receive(:update).with(
           name: update_attr['name'], slug: update_attr['slug']
@@ -106,7 +106,7 @@ describe Grey::SpotTypeAPI do
         )
       end
 
-      it 'delete the correct spot' do
+      it 'delete the correct spot type' do
         allow(spot_type_one).to receive(:delete) { true }
 
         delete "/v0/spot_types/1", {}, env
