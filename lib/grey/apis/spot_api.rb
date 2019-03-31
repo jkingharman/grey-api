@@ -31,7 +31,7 @@ module Grey
       end
 
       post do
-        authenticate!
+        authorize!
         required_params!(:spot)
         spot_type = Models::SpotType.find_by(slug: params[:spot][:spot_type]) || raise(ApiError::NotFound)
         spot = spot_type.spots.create!(
@@ -41,7 +41,7 @@ module Grey
       end
 
       put ":id" do
-        authenticate!
+        authorize!
         required_params!(:spot)
         spot = Models::Spot.find_by(id: params[:id]) || raise(ApiError::NotFound)
         spot.update(
@@ -51,7 +51,7 @@ module Grey
       end
 
       delete ":id" do
-        authenticate!
+        authorize!
         spot = spot = Models::Spot.find_by(id: params[:id]) || raise(ApiError::NotFound)
         spot.destroy
         serialize(spot)

@@ -19,5 +19,11 @@ module Grey
         super((message || "Missing Params"), 422)
       end
     end
+
+    class Unauthorized < ApiError
+      def initialize(message=nil)
+        super((message || "Unauthorized"), 401)
+      end
+    end
   end
 end
