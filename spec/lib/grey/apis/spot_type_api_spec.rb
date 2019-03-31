@@ -3,7 +3,7 @@
 require_relative '../../../spec_helper'
 
 describe Grey::SpotTypeAPI do
-  #@todo: test failure cases for auth.
+  #@todo: dry up.
   include Rack::Test::Methods
 
   def serialize(obj)
@@ -56,6 +56,13 @@ describe Grey::SpotTypeAPI do
     end
 
     context 'post with attr' do
+      it 'fails without auth' do
+        spot_type_attr = serialize(spot_type_one)
+        expect{post '/v0/spot_types/', {spot_type: spot_type_attr} }.to raise_error(
+          Grey::ApiError::Unauthorized
+        )
+      end
+
       it 'creates a new spot type' do
         spot_type_attr = serialize(spot_type_one)
 
@@ -72,6 +79,13 @@ describe Grey::SpotTypeAPI do
     end
 
     context 'put with attr' do
+      it 'fails without auth' do
+        update_attr = {name: "New name", slug: "new_name"}.stringify_keys!
+        expect{put '/v0/spot_types/1', spot_type: update_attr }.to raise_error(
+          Grey::ApiError::Unauthorized
+        )
+      end
+
       it 'updates the spot' do
         update_attr = {name: "New name", slug: "new_name"}.stringify_keys!
         allow(spot_type_one).to receive(:update).with(
@@ -86,6 +100,12 @@ describe Grey::SpotTypeAPI do
     end
 
     context 'delete by ID' do
+      it 'fails without auth' do
+        expect{delete '/v0/spot_types/1', {} }.to raise_error(
+          Grey::ApiError::Unauthorized
+        )
+      end
+
       it 'delete the correct spot' do
         allow(spot_type_one).to receive(:delete) { true }
 
