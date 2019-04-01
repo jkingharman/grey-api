@@ -3,7 +3,7 @@
 require_relative '../../../spec_helper'
 
 describe Grey::SpotTypeAPI do
-  #@todo: dry up.
+  #@todo: remove mocking
   include Rack::Test::Methods
 
   def serialize(obj)

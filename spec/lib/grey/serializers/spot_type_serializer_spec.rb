@@ -24,7 +24,7 @@ describe Grey::SpotTypeSerializer do
   describe '#api' do
     it 'serializes the full model' do
       expect(Grey::SpotTypeSerializer.new(:api).serialize(spot_type)).to eq(
-        id: 1, name: 'Plaza', slug: 'plaza', created_at: nil,
+        id: 1, name: 'Plaza', slug: 'plaza',
         spots: [{ name: 'Canada Water', slug: 'canada_water' }]
       )
     end

@@ -7,7 +7,6 @@ module Grey
         id: obj.id,
         name: obj.name,
         slug: obj.slug,
-        created_at: obj.created_at,
         spot_type: spot_types_serializer.serialize(obj.spot_type)
       }
     end
