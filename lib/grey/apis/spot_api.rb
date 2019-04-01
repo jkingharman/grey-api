@@ -25,6 +25,14 @@ module Grey
         serialize(Models::Spot.all)
       end
 
+      get "latest" do
+        serialize(Models::Spot.latest)
+      end
+
+      get "random" do
+        serialize(Models::Spot.random)
+      end
+
       get ":id" do
         spot = Models::Spot.find_by(id: params[:id]) || raise(ApiError::NotFound)
         serialize(spot)

@@ -6,6 +6,15 @@ module Grey
       belongs_to :spot_type
 
       validates_presence_of :name, :slug, :spot_type
+      validates_uniqueness_of :name, :slug
+
+      scope(:random, lambda do
+        self.order(Arel.sql("RANDOM()")).includes(:spot_type).limit(25).all
+      end)
+      
+      scope(:latest, lambda do
+         self.order(:created_at).includes(:spot_type).limit(25).all.reverse
+       end)
     end
   end
 end
