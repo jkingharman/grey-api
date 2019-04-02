@@ -1,7 +1,6 @@
 module Grey
   module Api
     module Helpers
-      # for dev/testing only, obvs
       def debug
         require "pry"
         binding.pry

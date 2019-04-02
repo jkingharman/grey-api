@@ -57,7 +57,7 @@ describe Grey::SpotAPI do
     context 'post with attr' do
       it 'fails without auth' do
         spot_attr = serialize(@spot_one)
-
+        
         expect{post '/v0/spots/', {spot: spot_attr} }.to raise_error(
           Grey::ApiError::Unauthorized
         )
@@ -90,7 +90,6 @@ describe Grey::SpotAPI do
     context 'put with attr' do
       it 'fails without auth' do
         update_attr = stringify_keys({name: "New name", slug: "new_name"})
-
         expect{put '/v0/spots/1', spot: update_attr }.to raise_error(
           Grey::ApiError::Unauthorized
         )

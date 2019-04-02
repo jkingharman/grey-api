@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+
+require "irb"
+require "irb/completion"
+
+require "bundler/setup"
+Bundler.require
+
+# Add lib to paths for ease.
+$: << './lib'
+
+require 'grey'
+
+# Remove hardcoded db name
+ActiveRecord::Base.establish_connection(database: 'lil-grey-development', adapter: 'postgresql')
+
+IRB.start
