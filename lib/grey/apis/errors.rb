@@ -25,5 +25,11 @@ module Grey
         super((message || "Unauthorized"), 401)
       end
     end
+
+    ERRORS = [
+      NotFound,
+      MissingParam,
+      Unauthorized
+    ]
   end
 end
