@@ -1,8 +1,9 @@
+# frozen_string_literal: true
+
 module Grey
   module Helpers
-
     def debug
-      require "pry"
+      require 'pry'
       binding.pry
     end
 
@@ -25,7 +26,7 @@ module Grey
       out = serializer.new(type).serialize(obj)
 
       if obj.respond_to?(:map)
-        out.map{ |o| stringify_keys(o) }
+        out.map { |o| stringify_keys(o) }
       else
         stringify_keys(out)
       end

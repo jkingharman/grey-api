@@ -6,7 +6,7 @@ module Grey
     version 'v0', using: :path
 
     format :json
-      default_error_status :json
+    default_error_status :json
 
     helpers do
       include Api::Helpers
@@ -27,7 +27,7 @@ module Grey
         serialize(Models::SpotType.all)
       end
 
-      get ":id" do
+      get ':id' do
         spot_type = Models::SpotType.find_by(id: params[:id]) || raise(ApiError::NotFound)
         serialize(spot_type)
       end

@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 module Grey
   module Api
     module Helpers
       def debug
-        require "pry"
+        require 'pry'
         binding.pry
       end
 
@@ -18,7 +20,7 @@ module Grey
 
       def authorized?
         @auth ||= Rack::Auth::Basic::Request.new(request.env)
-        @auth.provided? && @auth.basic? && @auth.credentials == ["user", "secret"]
+        @auth.provided? && @auth.basic? && @auth.credentials == %w[user secret]
       end
     end
   end

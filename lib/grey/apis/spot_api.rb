@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-require "pry"
+
+require 'pry'
 module Grey
   # consistent file struct require module here.
   class SpotAPI < Grape::API
@@ -27,15 +28,15 @@ module Grey
         serialize(Models::Spot.all)
       end
 
-      get "latest" do
+      get 'latest' do
         serialize(Models::Spot.latest)
       end
 
-      get "random" do
+      get 'random' do
         serialize(Models::Spot.random)
       end
 
-      get ":id" do
+      get ':id' do
         spot = Models::Spot.find_by(id: params[:id]) || raise(ApiError::NotFound)
         serialize(spot)
       end
@@ -45,12 +46,12 @@ module Grey
         required_params!(:spot)
         spot_type = Models::SpotType.find_by(slug: params[:spot][:spot_type]) || raise(ApiError::NotFound)
         spot = spot_type.spots.create!(
-          name: params[:spot][:name], slug: params[:spot][:slug],
+          name: params[:spot][:name], slug: params[:spot][:slug]
         )
         serialize(spot)
       end
 
-      put ":id" do
+      put ':id' do
         authorize!
         required_params!(:spot)
         spot = Models::Spot.find_by(id: params[:id]) || raise(ApiError::NotFound)
@@ -60,7 +61,7 @@ module Grey
         serialize(spot)
       end
 
-      delete ":id" do
+      delete ':id' do
         authorize!
         spot = Models::Spot.find_by(id: params[:id]) || raise(ApiError::NotFound)
         spot.destroy

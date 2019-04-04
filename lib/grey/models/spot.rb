@@ -9,12 +9,12 @@ module Grey
       validates_uniqueness_of :name, :slug
 
       scope(:random, lambda do
-        self.order(Arel.sql("RANDOM()")).includes(:spot_type).limit(25).all
+        order(Arel.sql('RANDOM()')).includes(:spot_type).limit(25).all
       end)
-      
+
       scope(:latest, lambda do
-         self.order(:created_at).includes(:spot_type).limit(25).all.reverse
-       end)
+                       order(:created_at).includes(:spot_type).limit(25).all.reverse
+                     end)
     end
   end
 end
