@@ -57,7 +57,7 @@ describe Grey::SpotAPI do
     context 'post with attr' do
       it 'fails without auth' do
         spot_attr = serialize(@spot_one)
-        
+
         expect{post '/v0/spots/', {spot: spot_attr} }.to raise_error(
           Grey::ApiError::Unauthorized
         )

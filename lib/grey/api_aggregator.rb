@@ -4,7 +4,7 @@ module Grey
   class ApiAggregator < Grape::API
 
   rescue_from ActiveRecord::RecordInvalid do |e|
-    #@todo: log the error and backtrace.
+    env.merge!({ handled_error: { type: "#{e.class.name}", message: "#{e.as_json}"} })
 
     Rack::Response.new(
       [ {error: e.as_json}.to_json ], 422, { 'Content-type' => 'text/error' }
@@ -12,7 +12,7 @@ module Grey
   end
 
   rescue_from *Grey::ApiError::ERRORS do |e|
-    #@todo: log the error and backtrace.
+    env.merge!({ handled_error: { type: "#{e.class.name}", message: "#{e.message}" } })
 
     Rack::Response.new(
       [ {error: e.message}.to_json ], e.status, { 'Content-type' => 'text/error' }
@@ -20,8 +20,10 @@ module Grey
   end
 
   rescue_from :all do |e|
-    #@todo: log the error and backtrace.
-    Rack::Response.new([ {error: "Internal server error"}.to_json ], 500, { 'Content-type' => 'text/error' })
+    error_msg = "Internal server error"
+    env.merge!({ handled_error: { type: "RuntimeError", message: error_msg } })
+
+    Rack::Response.new([ {error: error_msg}.to_json ], 500, { 'Content-type' => 'text/error' })
   end
 
     mount Grey::SpotAPI

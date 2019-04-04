@@ -6,6 +6,9 @@ require 'active_record'
 # For testing only!
 ActiveRecord::Base.establish_connection database: 'lil-grey-development', adapter: 'postgresql'
 
+require_relative './grey/config'
+require_relative './grey/monkey_patch'
+
 require_relative './grey/apis/errors.rb'
 require_relative './grey/apis/helpers.rb'
 require_relative './grey/apis/spot_api.rb'
