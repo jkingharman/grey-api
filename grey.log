@@ -1,0 +1,10 @@
+# Logfile created on 2019-04-04 22:02:27 +0100 by logger.rb/61378
+::1 - - [04/Apr/2019:22:24:57 +0100] "GET /v0/spots HTTP/1.1 200" 
+::1 - - [04/Apr/2019:22:25:07 +0100] "GET /v0/spots HTTP/1.1 200" 
+::1 - - [04/Apr/2019:22:35:30 +0100] "GET /v0/spots/2222 HTTP/1.1 404" 
+::1 - - [04/Apr/2019:22:40:31 +0100] "GET /v0/spots/2222 HTTP/1.1 404" 
+::1 - - [04/Apr/2019:22:40:49 +0100] "GET /v0/spots HTTP/1.1 200"  
+::1 - - [04/Apr/2019:22:41:29 +0100] "GET /v0/spots/3333 HTTP/1.1 404" Grey::ApiError::NotFound Not found
+::1 - - [04/Apr/2019:22:42:48 +0100] "GET /v0/spots/3333 HTTP/1.1 404" Grey::ApiError::NotFound Not found
+::1 - - [04/Apr/2019:22:42:50 +0100] "GET /v0/spots/3333 HTTP/1.1 404" Grey::ApiError::NotFound Not found
+::1 - - [04/Apr/2019:22:42:52 +0100] "GET /v0/spots/3333 HTTP/1.1 404" Grey::ApiError::NotFound Not found

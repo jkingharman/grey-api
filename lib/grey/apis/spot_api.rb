@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-
+require "pry"
 module Grey
   # consistent file struct require module here.
   class SpotAPI < Grape::API
@@ -21,6 +21,8 @@ module Grey
     end
 
     resource :spots do
+      after { Grey::ApiLogger.log(env, status) }
+
       get do
         serialize(Models::Spot.all)
       end

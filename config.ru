@@ -5,7 +5,7 @@ Bundler.require
 
 require_relative './lib/grey'
 
-logger = Grey::Config.logger(log_path: "./log/grey.log")
+require "pry"
 
-use Rack::CommonLogger, logger
+Grey::Config.logger
 run Grey::ApiAggregator
