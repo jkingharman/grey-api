@@ -3,7 +3,6 @@
 require_relative '../../../spec_helper'
 
 describe Grey::SpotTypeAPI do
-  #@todo: remove mocking
   include Rack::Test::Methods
 
   def serialize(obj)
@@ -11,36 +10,28 @@ describe Grey::SpotTypeAPI do
   end
 
   let(:app) { Grey::SpotTypeAPI }
-  let(:env) { { 'HTTP_AUTHORIZATION' => "Basic " + Base64.encode64("user:secret") } }
 
-  let(:spot_type_one) do
-    Grey::Models::SpotType.new(
-      id: 1,
-      name: 'Plaza',
-      slug: 'plaza',
-    )
-  end
+  before(:all) do
+    @spot_type_one = Grey::Models::SpotType.create(
+          id: 1,
+          name: 'Plaza',
+          slug: 'plaza',
+        )
 
-  let(:spot_type_two) do
-    Grey::Models::SpotType.new(
-      id: 2,
-      name: 'Polejam',
-      slug: 'polejam',
-    )
-  end
-
-  before do
-    allow(Grey::Models::SpotType).to receive(:find_by).with(id: "1") { spot_type_one }
+    @spot_type_two = Grey::Models::SpotType.create(
+          id: 2,
+          name: 'Polejam',
+          slug: 'polejam',
+        )
   end
 
   describe 'spot_types' do
     context 'get all' do
       it 'returns all the spot types' do
-        allow(Grey::Models::SpotType).to receive(:all) { [spot_type_one, spot_type_two] }
         get '/v0/spot_types'
         expect(last_response.status).to eq 200
         expect(response_body).to eq serialize(
-          [spot_type_one, spot_type_two]
+          [@spot_type_one, @spot_type_two]
         )
       end
     end
@@ -50,7 +41,7 @@ describe Grey::SpotTypeAPI do
          get '/v0/spot_types/1'
          expect(last_response.status).to eq 200
          expect(response_body).to eq serialize(
-           spot_type_one
+           @spot_type_one
          )
       end
     end
