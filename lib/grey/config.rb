@@ -4,8 +4,12 @@ module Grey
   module Config
     extend self
 
-    def production?
+    def production_env?
       rack_env == 'production'
+    end
+
+    def test_env?
+      rack_env == 'test'
     end
 
     def rack_env
@@ -13,11 +17,10 @@ module Grey
     end
 
     def logger
-      if production?
-        Grey::ApiLogger.init('./grey.log', level: Logger::ERROR)
-      else
-        Grey::ApiLogger.init('./grey.log', level: Logger::DEBUG)
-      end
+        Grey::ApiLogger.init(
+          './grey.log',
+          "#{production_env? ? Logger::Error : Logger::Debug}"
+        )
     end
 
     private
