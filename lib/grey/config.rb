@@ -5,6 +5,10 @@ module Grey
     class ConfigError < StandardError; end
     extend self
 
+    def api_key
+      env!('API_KEY')
+    end
+
     def database_url
       env!('DATABASE_URL')
     end
