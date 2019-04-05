@@ -18,7 +18,7 @@ module Grey
 
     def logger
         Grey::ApiLogger.init(
-          './grey.log',
+          './log/grey.log',
           "#{production_env? ? Logger::Error : Logger::Debug}"
         )
     end

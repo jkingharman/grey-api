@@ -13,8 +13,8 @@ module Grey
       end)
 
       scope(:latest, lambda do
-                       order(:created_at).includes(:spot_type).limit(25).all.reverse
-                     end)
+        order(:created_at).includes(:spot_type).limit(25).all.reverse
+      end)
     end
   end
 end
