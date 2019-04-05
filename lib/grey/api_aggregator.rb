@@ -10,7 +10,7 @@ module Grey
       )
     end
 
-    rescue_from *Grey::ApiError::ERRORS do |e|
+    rescue_from(*Grey::ApiError::ERRORS) do |e|
       Grey::ApiLogger.log(env, e.status, type: e.class.name, message: e.message)
 
       Rack::Response.new(

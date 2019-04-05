@@ -6,8 +6,8 @@ module Grey
     ERROR_FORMAT = %(%s %s)
 
     def self.init(path, level: Logger::DEBUG)
-      @@logger ||= Logger.new(path)
-      @@logger.level = level
+      @logger ||= Logger.new(path)
+      @logger.level = level
     end
 
     def self.log(env, status, error_opts = {})
@@ -29,12 +29,13 @@ module Grey
               request_msg + format(
                 ERROR_FORMAT,
                 error_opts[:type],
-                error_opts[:message])
+                error_opts[:message]
+              )
             else
               request_msg
             end
 
-      @@logger << msg + "\n"
+      @logger << msg + "\n"
     end
   end
 end

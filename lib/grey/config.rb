@@ -22,10 +22,10 @@ module Grey
     end
 
     def logger
-        Grey::ApiLogger.init(
-          './log/grey.log',
-          level: production_env? ? Logger::ERROR : Logger::DEBUG
-        )
+      Grey::ApiLogger.init(
+        './log/grey.log',
+        level: production_env? ? Logger::ERROR : Logger::DEBUG
+      )
     end
 
     private

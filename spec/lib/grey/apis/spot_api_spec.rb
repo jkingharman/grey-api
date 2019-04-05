@@ -10,7 +10,9 @@ describe Grey::SpotAPI do
   end
 
   let(:app) { Grey::SpotAPI }
-  let(:env) { { 'HTTP_AUTHORIZATION' => 'Basic ' + Base64.encode64('user:secret') } }
+  let(:env) do
+    { 'HTTP_AUTHORIZATION' => 'Basic ' + Base64.encode64('user:secret') }
+  end
 
   before(:all) do
     @spot_type = Grey::Models::SpotType.create(

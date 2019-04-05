@@ -3,11 +3,6 @@
 module Grey
   module Api
     module Helpers
-      def debug
-        require 'pry'
-        binding.pry
-      end
-
       def authorize!
         raise(ApiError::Unauthorized) unless authorized?
       end
