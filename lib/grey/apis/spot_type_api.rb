@@ -27,6 +27,11 @@ module Grey
         serialize(Models::SpotType.all)
       end
 
+      get 'search' do
+        spots = Models::SpotType.search_by_name(params[:query])
+        serialize(spots)
+      end
+
       get ':id' do
         spot_type = Models::SpotType.find_by(id: params[:id]) || raise(ApiError::NotFound)
         serialize(spot_type)

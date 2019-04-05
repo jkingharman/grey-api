@@ -8,6 +8,7 @@ gem 'activerecord'
 gem 'grape'
 gem 'json'
 gem 'pg'
+gem 'pg_search'
 gem 'puma'
 gem 'rake'
 

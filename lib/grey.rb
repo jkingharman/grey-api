@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'grape'
+require 'pg_search'
 require 'active_record'
 
 # For testing only!

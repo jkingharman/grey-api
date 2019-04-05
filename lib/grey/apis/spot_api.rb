@@ -27,6 +27,11 @@ module Grey
         serialize(Models::Spot.all)
       end
 
+      get 'search' do
+        spots = Models::Spot.search_by_name(params[:query])
+        serialize(spots)
+      end
+
       get 'latest' do
         serialize(Models::Spot.latest)
       end

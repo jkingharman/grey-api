@@ -3,6 +3,8 @@
 module Grey
   module Models
     class Spot < ActiveRecord::Base
+      include PgSearch
+
       belongs_to :spot_type
 
       validates_presence_of :name, :slug, :spot_type
@@ -14,6 +16,18 @@ module Grey
 
       scope(:latest, lambda do
         order(:created_at).includes(:spot_type).limit(25).all.reverse
+      end)
+
+      pg_search_scope(:search_by_name, lambda do |query|
+        {
+          against: name,
+          query: query,
+          using: {
+            tsearch: {
+              tsvector_column: 'tsv'
+            }
+          }
+        }
       end)
     end
   end
