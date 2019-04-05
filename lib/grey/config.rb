@@ -2,7 +2,12 @@
 
 module Grey
   module Config
+    class ConfigError < StandardError; end
     extend self
+
+    def database_url
+      env!('DATABASE_URL')
+    end
 
     def production_env?
       rack_env == 'production'
@@ -19,11 +24,15 @@ module Grey
     def logger
         Grey::ApiLogger.init(
           './log/grey.log',
-          "#{production_env? ? Logger::Error : Logger::Debug}"
+          level: production_env? ? Logger::ERROR : Logger::DEBUG
         )
     end
 
     private
+
+    def env!(k)
+      env(k) || raise(ConfigError, "#{k} not found in environment")
+    end
 
     def env(k)
       ENV[k] unless ENV[k].blank?
