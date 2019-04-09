@@ -1,9 +1,15 @@
 # frozen_string_literal: true
 
-require_relative '../lib/grey.rb'
-require './spec/support/helpers'
+require 'bundler/setup'
+Bundler.require
+
+# Add lib to paths for ease.
+$LOAD_PATH << './lib'
+require 'grey'
+
 require 'rack/test'
 require 'database_cleaner'
+require './spec/support/helpers'
 
 # TODO: stop sharing test and dev databases
 ActiveRecord::Base.establish_connection(Grey::Config.database_url)

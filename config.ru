@@ -3,7 +3,10 @@
 require 'bundler/setup'
 Bundler.require
 
-require_relative './lib/grey'
+# Add lib to paths for ease.
+$LOAD_PATH << './lib'
+
+require 'grey'
 
 ActiveRecord::Base.establish_connection(Grey::Config.database_url)
 
