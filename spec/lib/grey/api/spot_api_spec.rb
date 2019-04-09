@@ -22,14 +22,14 @@ describe Grey::Api::SpotAPI do
     )
 
     @spot_one = Grey::Models::Spot.create(
-      name: 'Canada Water',
-      slug: 'canada_water',
+      name: 'Fredstone',
+      slug: 'fredstone',
       spot_type: @spot_type
     )
 
     @spot_two = Grey::Models::Spot.create(
-      name: 'Peckham curbs',
-      slug: 'peckham_curbs',
+      name: 'Pall',
+      slug: 'pall',
       spot_type: @spot_type
     )
   end
@@ -47,7 +47,7 @@ describe Grey::Api::SpotAPI do
 
     context 'get by ID' do
       it 'returns the correct spot' do
-        get '/v0/spots/1'
+        get "/v0/spots/1"
         expect(last_response.status).to eq 200
         expect(response_body).to eq serialize(
           @spot_one

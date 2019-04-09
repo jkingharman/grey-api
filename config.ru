@@ -17,9 +17,11 @@ $stdout.sync = true
 $stderr.sync = true
 
 # keep on top of middleware stack
-use Grey::Middleware::ApiLogLine, emitter: Grey::ApiLogLineEmitter.new(
-  logger: Grey::Config.logger
-)
+unless Grey::Config.test_env?
+  use Grey::Middleware::ApiLogLine, emitter: Grey::ApiLogLineEmitter.new(
+    logger: Grey::Config.logger
+  )
+end
 
 use Grey::Middleware::Instrumentation
 run Grey::ApiAggregator
