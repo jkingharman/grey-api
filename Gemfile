@@ -12,10 +12,10 @@ gem 'pg'
 gem 'pg_search'
 gem 'puma'
 gem 'rake'
+gem 'rack-cors'
 
 group :development do
   gem 'pry'
-  gem 'rack-cors'
 end
 
 group :test do
