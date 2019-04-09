@@ -5,6 +5,8 @@ Bundler.require
 
 require_relative './lib/grey'
 
+ActiveRecord::Base.establish_connection(Grey::Config.database_url)
+
 use Rack::Cors do
   allow do
     origins '*'

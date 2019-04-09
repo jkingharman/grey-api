@@ -12,6 +12,6 @@ $LOAD_PATH << './lib'
 
 require 'grey'
 
-ActiveRecord::Base.establish_connection(database: Grey::Config.database_url, adapter: 'postgresql')
+ActiveRecord::Base.establish_connection(Grey::Config.database_url)
 
 IRB.start

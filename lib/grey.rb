@@ -6,9 +6,6 @@ require 'active_record'
 require 'grape-swagger'
 require 'rack/cors'
 
-# For testing only!
-ActiveRecord::Base.establish_connection database: 'lil-grey-development', adapter: 'postgresql'
-
 require_relative './grey/config'
 require_relative './grey/monkey_patch'
 
