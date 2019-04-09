@@ -27,5 +27,11 @@ module Grey
 
     mount Grey::SpotAPI
     mount Grey::SpotTypeAPI
+    
+    add_swagger_documentation \
+    hide_documentation_path: true,
+    mount_path: "/swagger_doc",
+    markdown: false,
+    api_version: "v0"
   end
 end

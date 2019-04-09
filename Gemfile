@@ -6,6 +6,7 @@ ruby '2.5.1'
 
 gem 'activerecord'
 gem 'grape'
+gem 'grape-swagger'
 gem 'json'
 gem 'pg'
 gem 'pg_search'
@@ -13,6 +14,7 @@ gem 'puma'
 gem 'rake'
 
 group :development do
+  gem 'rack-cors'
   gem 'pry'
 end
 
