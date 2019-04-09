@@ -14,8 +14,8 @@ gem 'puma'
 gem 'rake'
 
 group :development do
-  gem 'rack-cors'
   gem 'pry'
+  gem 'rack-cors'
 end
 
 group :test do

@@ -21,8 +21,6 @@ module Grey
     end
 
     resource :spot_types do
-      after { Grey::ApiLogger.log(env, status) }
-
       get do
         serialize(Models::SpotType.all)
       end

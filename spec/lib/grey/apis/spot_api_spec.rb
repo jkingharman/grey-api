@@ -11,7 +11,7 @@ describe Grey::SpotAPI do
 
   let(:app) { Grey::SpotAPI }
   let(:env) do
-    { 'HTTP_AUTHORIZATION' => 'Basic ' + Base64.encode64('user:secret') }
+    { 'HTTP_AUTHORIZATION' => 'Basic ' + Base64.encode64('user:lvux5tl5zrfs6lpb2ntseociwp5sl0n1qc5seukaamzv8u0zocfutyc58wdo') }
   end
 
   before(:all) do

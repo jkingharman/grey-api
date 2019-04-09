@@ -8,11 +8,18 @@ require_relative './lib/grey'
 use Rack::Cors do
   allow do
     origins '*'
-    resource '*', headers: :any, methods: [:get, :post, :put, :delete]
+    resource '*', headers: :any, methods: %i[get post put delete]
   end
 end
 
-Grey::Config.logger
+# flush log messages straight away 
+$stdout.sync = true
+$stderr.sync = true
 
-use Grey::ApiLogLineEmitter
+# keep on top of middleware stack
+use Grey::ApiLogLine, emitter: Grey::ApiLogLineEmitter.new(
+  logger: Grey::Config.logger
+)
+
+use Grey::Instrumentation
 run Grey::ApiAggregator

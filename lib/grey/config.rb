@@ -26,10 +26,9 @@ module Grey
     end
 
     def logger
-      Grey::ApiLogger.init(
-        './log/grey.log',
-        level: production_env? ? Logger::ERROR : Logger::DEBUG
-      )
+      @logger ||= Logger.new($stdout)
+      @logger.level = production_env? ? Logger::INFO : Logger::DEBUG
+      @logger
     end
 
     private

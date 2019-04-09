@@ -4,9 +4,12 @@ module Grey
   # consistent file struct require module here.
   class ApiError < StandardError
     attr_accessor :status
+    attr_accessor :id
 
     def initialize(message, status = 500)
       self.status = status
+      self.id = SecureRandom.uuid
+
       super(message)
     end
 
