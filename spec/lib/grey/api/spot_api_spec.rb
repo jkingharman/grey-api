@@ -2,14 +2,14 @@
 
 require_relative '../../../spec_helper'
 
-describe Grey::SpotAPI do
+describe Grey::Api::SpotAPI do
   include Rack::Test::Methods
 
   def serialize(obj)
-    serialize_generic(Grey::SpotSerializer, :api, obj)
+    serialize_generic(Grey::Serializers::SpotSerializer, :api, obj)
   end
 
-  let(:app) { Grey::SpotAPI }
+  let(:app) { Grey::Api::SpotAPI }
   let(:env) do
     { 'HTTP_AUTHORIZATION' => 'Basic ' + Base64.encode64('user:lvux5tl5zrfs6lpb2ntseociwp5sl0n1qc5seukaamzv8u0zocfutyc58wdo') }
   end
@@ -60,7 +60,7 @@ describe Grey::SpotAPI do
         spot_attr = serialize(@spot_one)
 
         expect { post '/v0/spots/', spot: spot_attr }.to raise_error(
-          Grey::ApiError::Unauthorized
+          Grey::Api::Error::Unauthorized
         )
       end
 
@@ -91,7 +91,7 @@ describe Grey::SpotAPI do
       it 'fails without auth' do
         update_attr = stringify_keys(name: 'New name', slug: 'new_name')
         expect { put '/v0/spots/1', spot: update_attr }.to raise_error(
-          Grey::ApiError::Unauthorized
+          Grey::Api::Error::Unauthorized
         )
       end
 
@@ -113,7 +113,7 @@ describe Grey::SpotAPI do
     context 'delete by ID' do
       it 'fails without auth' do
         expect { delete '/v0/spots/1', {} }.to raise_error(
-          Grey::ApiError::Unauthorized
+          Grey::Api::Error::Unauthorized
         )
       end
 

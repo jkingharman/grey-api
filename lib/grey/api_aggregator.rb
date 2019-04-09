@@ -10,7 +10,7 @@ module Grey
       )
     end
 
-    rescue_from(*Grey::ApiError::ERRORS) do |e|
+    rescue_from(*Grey::Api::Error::ERRORS) do |e|
       env['grey.error'] = e
 
       Rack::Response.new(
@@ -25,8 +25,8 @@ module Grey
       Rack::Response.new([{ error: error_msg }.to_json], 500, 'Content-type' => 'text/error')
     end
 
-    mount Grey::SpotAPI
-    mount Grey::SpotTypeAPI
+    mount Grey::Api::SpotAPI
+    mount Grey::Api::SpotTypeAPI
 
     add_swagger_documentation \
       hide_documentation_path: true,

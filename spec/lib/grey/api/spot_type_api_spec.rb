@@ -2,14 +2,14 @@
 
 require_relative '../../../spec_helper'
 
-describe Grey::SpotTypeAPI do
+describe Grey::Api::SpotTypeAPI do
   include Rack::Test::Methods
 
   def serialize(obj)
-    serialize_generic(Grey::SpotTypeSerializer, :api, obj)
+    serialize_generic(Grey::Serializers::SpotTypeSerializer, :api, obj)
   end
 
-  let(:app) { Grey::SpotTypeAPI }
+  let(:app) { Grey::Api::SpotTypeAPI }
 
   before(:all) do
     @spot_type_one = Grey::Models::SpotType.create(

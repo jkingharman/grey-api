@@ -12,7 +12,6 @@ $LOAD_PATH << './lib'
 
 require 'grey'
 
-# Remove hardcoded db name
-ActiveRecord::Base.establish_connection(database: 'lil-grey-development', adapter: 'postgresql')
+ActiveRecord::Base.establish_connection(database: Grey::Config.database_url, adapter: 'postgresql')
 
 IRB.start

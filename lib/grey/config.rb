@@ -2,7 +2,7 @@
 
 module Grey
   module Config
-    class ConfigError < StandardError; end
+    class Error < StandardError; end
     extend self
 
     def api_key
@@ -34,7 +34,7 @@ module Grey
     private
 
     def env!(k)
-      env(k) || raise(ConfigError, "#{k} not found in environment")
+      env(k) || raise(Error, "#{k} not found in environment")
     end
 
     def env(k)

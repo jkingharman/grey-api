@@ -9,11 +9,11 @@ module Grey
       end
 
       def authorize!
-        raise(ApiError::Unauthorized) unless authorized?
+        raise(Error::Unauthorized) unless authorized?
       end
 
       def required_params!(*keys)
-        keys.each { |key| raise(ApiError::MissingParam) unless params[key] }
+        keys.each { |key| raise(Error::MissingParam) unless params[key] }
       end
 
       private

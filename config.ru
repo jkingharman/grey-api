@@ -12,14 +12,14 @@ use Rack::Cors do
   end
 end
 
-# flush log messages straight away 
+# flush log messages straight away
 $stdout.sync = true
 $stderr.sync = true
 
 # keep on top of middleware stack
-use Grey::ApiLogLine, emitter: Grey::ApiLogLineEmitter.new(
+use Grey::Middleware::ApiLogLine, emitter: Grey::ApiLogLineEmitter.new(
   logger: Grey::Config.logger
 )
 
-use Grey::Instrumentation
+use Grey::Middleware::Instrumentation
 run Grey::ApiAggregator
