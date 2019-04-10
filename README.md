@@ -40,6 +40,6 @@ Now you should be good to test: ```rspec -fd```
 * Grape
 * ActiveRecord
 * PostgreSQL
-* PGSearch
+* PgSearch
 * Rake
 * RSpec
