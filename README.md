@@ -1,8 +1,8 @@
 # Grey API
 
-__WIP__. A Grape-based API returning data on London skate spots. It will serve an Expo-based React Native app eventually.
+__WIP__. A [Grape-based](http://www.ruby-grape.org) API returning data on London skate spots. It will serve an Expo-based React Native app eventually.
 
-You can explore the API by via the [Swagger demo](https://petstore.swagger.io/#/). Point the demo to: https://grey-api.herokuapp.com/swagger_doc
+You can explore the API via the [Swagger demo](https://petstore.swagger.io/#/). Point the demo to: https://grey-api.herokuapp.com/swagger_doc
 
 ## What's it do? ##
 
