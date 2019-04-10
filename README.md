@@ -6,7 +6,7 @@ You can explore the API via the [Swagger demo](https://petstore.swagger.io/#/). 
 
 ## What's it do? ##
 
-The API is an MVP and so operates on a minimal set of data. You can perform CRUD on skate spots and read from skate spot types. It also has basic search.
+The API is an MVP and so operates on a minimal set of data. You can perform CRUD on skate spots and read from skate spot types. It also has basic search. 
 
 Write operations need authentication, meaning they're not performable via the Swagger demo.
 
