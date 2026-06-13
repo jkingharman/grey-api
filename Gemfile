@@ -11,6 +11,7 @@ gem 'json'
 gem 'pg'
 gem 'pg_search'
 gem 'puma'
+gem 'rackup'
 gem 'rake'
 gem 'rack-cors'
 
