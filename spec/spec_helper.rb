@@ -8,7 +8,7 @@ $LOAD_PATH << './lib'
 require 'grey'
 
 require 'rack/test'
-require 'database_cleaner'
+require 'database_cleaner/active_record'
 require './spec/support/helpers'
 
 # TODO: stop sharing test and dev databases

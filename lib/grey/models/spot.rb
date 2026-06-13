@@ -3,7 +3,7 @@
 module Grey
   module Models
     class Spot < ActiveRecord::Base
-      include PgSearch
+      include PgSearch::Model
 
       belongs_to :spot_type
 
