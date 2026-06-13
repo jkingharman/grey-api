@@ -6,7 +6,6 @@ module Grey
       version 'v0', using: :path
 
       format :json
-      default_error_status :json
 
       helpers do
         include Api::Helpers

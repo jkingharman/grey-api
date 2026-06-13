@@ -3,7 +3,7 @@
 module Grey
   module Models
     class SpotType < ActiveRecord::Base
-      include PgSearch
+      include PgSearch::Model
       has_many :spots
       before_validation { self.slug = self.slug.downcase }
 

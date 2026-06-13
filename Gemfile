@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby '2.5.1'
+ruby '3.4.9'
 
 gem 'activerecord'
 gem 'grape'
@@ -11,6 +11,7 @@ gem 'json'
 gem 'pg'
 gem 'pg_search'
 gem 'puma'
+gem 'rackup'
 gem 'rake'
 gem 'rack-cors'
 
@@ -19,7 +20,7 @@ group :development do
 end
 
 group :test do
-  gem 'database_cleaner'
+  gem 'database_cleaner-active_record'
   gem 'rack-test'
   gem 'rspec'
 end
