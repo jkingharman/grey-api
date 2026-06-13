@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
+require 'bundler/setup'
+Bundler.require
+
+$LOAD_PATH << './lib'
 require_relative 'lib/grey'
 
 task :environment do
