@@ -2,30 +2,35 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+> This doc captures durable conventions — *how* things are done here. For volatile
+> specifics (versions, the resource/file list, migration timestamps) it points at the
+> source of truth in the repo rather than copying a snapshot that will rot. When you
+> need a current fact, read the source, don't trust a number transcribed here.
+
 ## What this is
 
 A **Grape API on plain Rack** — NOT Rails. ActiveRecord is used standalone for
 persistence; there is no `app/`, no Rails CLI, no `config/environments`.
-Serves London skate-spot data. All code lives under `lib/grey/`. Two resources:
-`spots` and `spot_types`.
+Serves London skate-spot data. All code lives under `lib/grey/`. Resources are the
+classes mounted in `lib/grey/api_aggregator.rb` (one Grape class per resource under
+`lib/grey/api/`).
 
 ## Stack
 
-- Ruby **3.4.9** (`.ruby-version`, pinned in `Gemfile`)
-- ActiveRecord **8.1.3** (standalone, no Rails)
-- Grape **3.2.1** + grape-swagger 2.1.4
-- Rack **3.x** (booted via `rackup`), puma 8
-- Postgres via `pg` + `pg_search` (full-text)
-- RSpec 3.13, rack-test, database_cleaner-active_record
+- **Not Rails**: Grape on plain Rack, ActiveRecord standalone, Postgres via `pg` +
+  `pg_search` (full-text), RSpec for tests, puma in production.
+- Ruby version → `.ruby-version` (also pinned in `Gemfile`). Gem versions → `Gemfile.lock`.
+  Read those for exact numbers.
 
 ## Run / test / migrate
 
 - Run locally: `bundle exec rackup config.ru` (port 9292). Procfile uses `-p $PORT`.
 - All tests: `rspec -fd`
 - Single test: `rspec path/to/spec.rb:LINE` or `rspec -e "description"`
-- Migrate: `rake environment && rake db:migrate VERSION=1554479266` — the custom rake task
-  REQUIRES `VERSION` (latest migration timestamp); without it nothing migrates.
-  `rake db:rollback` is known-broken (`@todo: fix` in Rakefile).
+- Migrate: `rake environment && rake db:migrate VERSION=<timestamp>` — the custom rake task
+  REQUIRES `VERSION` (the latest migration's timestamp, i.e. the newest file in
+  `db/migrate/`); without it nothing migrates. `rake db:rollback` is known-broken
+  (`@todo: fix` in Rakefile).
 
 ## Required env vars (no defaults, no .env file)
 
