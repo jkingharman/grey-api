@@ -5,6 +5,12 @@ The codebase's architecture is sound; what needs fixing is the operational shell
 around it — verification, tooling, and broken wiring. These also prepare the repo
 for agentic engineering, where fast trustworthy feedback loops are the ground truth.
 
+This groundwork is not prep *before* agentic practice — it IS the first exercises,
+on a difficulty gradient: do §4/§6 as simple single-agent tasks, §1–§2 with plan
+mode and review, and by feature time the repo supports worktrees and multi-agent
+workflows. Ranking principle: agents are exactly as good as the feedback loops
+they can run unattended.
+
 ## 1. Testing: hermetic and self-provisioning (first)
 
 - [ ] Dedicated test database — stop sharing test/dev. Do this before anything else:
@@ -18,6 +24,10 @@ for agentic engineering, where fast trustworthy feedback loops are the ground tr
       truncation-at-boot sequence resets plus lucky file ordering.
 - [ ] Cover the untested middleware zone: unit-test `ApiLogLine` (fake emitter, assert
       emitted fields) and `Instrumentation` (assert env). All known live bugs are here.
+- [ ] Parallel-safe: derive the test DB name from the worktree/branch (e.g.
+      `grey_test_$(basename $PWD)`) so concurrent agents in separate worktrees can
+      run suites without clobbering each other. A single shared test DB blocks
+      parallel agentic work.
 
 ## 2. CI and lint
 
@@ -52,6 +62,20 @@ for agentic engineering, where fast trustworthy feedback loops are the ground tr
 - [ ] `db:migrate` should default to latest instead of requiring `VERSION`.
 - [ ] Fix `db:rollback` (known-broken, `@todo` in Rakefile).
 - [ ] Add a schema dump to `db/`.
+
+## 7. Agentic harness groundwork
+
+Repo-level config for the agent tooling itself — cheap, high leverage.
+
+- [ ] Project `.claude/settings.json` with a permissions allowlist (`bundle exec
+      rspec`, `rake`, `psql`, `bin/test`, ...) so agents run autonomously without
+      permission-prompt babysitting. `/fewer-permission-prompts` automates this.
+- [ ] Hook that runs the linter on file edits (once §2 lands) — turns style
+      conventions from prose agents drift from into mechanical enforcement.
+- [ ] Exercise backlog: convert "Later" items and feature ideas into well-scoped
+      GitHub issues with acceptance criteria. Agentic workflows are only as good
+      as the task definition; pre-scoped issues are the raw material for
+      practising plan mode, parallel agents, and review workflows.
 
 ## Later / unblocked from features
 
