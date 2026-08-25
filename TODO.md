@@ -13,18 +13,18 @@ they can run unattended.
 
 ## 1. Testing: hermetic and self-provisioning (first)
 
-- [ ] Dedicated test database — stop sharing test/dev. Do this before anything else:
+- [x] Dedicated test database — stop sharing test/dev. Do this before anything else:
       truncation against the shared DB means running the suite destroys dev data.
-- [ ] `bin/test` (or rake default): sane env defaults, create/migrate the test DB if
+- [x] `bin/test` (or rake default): sane env defaults, create/migrate the test DB if
       absent, run rspec. Green from a cold clone with zero manual steps.
-- [ ] Set `ENV['RACK_ENV'] = 'test'` (and defaults for `API_KEY`/`DATABASE_URL`) at the
+- [x] Set `ENV['RACK_ENV'] = 'test'` (and defaults for `API_KEY`/`DATABASE_URL`) at the
       top of `spec_helper.rb`, before requires — `Config.rack_env` memoizes.
 - [ ] Kill order-dependence: interpolate created record IDs in API specs instead of
       hardcoding (`get "/v0/spots/#{@spot_one.id}"`). Suite currently relies on
       truncation-at-boot sequence resets plus lucky file ordering.
 - [ ] Cover the untested middleware zone: unit-test `ApiLogLine` (fake emitter, assert
       emitted fields) and `Instrumentation` (assert env). All known live bugs are here.
-- [ ] Parallel-safe: derive the test DB name from the worktree/branch (e.g.
+- [x] Parallel-safe: derive the test DB name from the worktree/branch (e.g.
       `grey_test_$(basename $PWD)`) so concurrent agents in separate worktrees can
       run suites without clobbering each other. A single shared test DB blocks
       parallel agentic work.
@@ -59,7 +59,7 @@ they can run unattended.
 
 ## 6. Migration tooling
 
-- [ ] `db:migrate` should default to latest instead of requiring `VERSION`.
+- [x] `db:migrate` should default to latest instead of requiring `VERSION`.
 - [ ] Fix `db:rollback` (known-broken, `@todo` in Rakefile).
 - [ ] Add a schema dump to `db/`.
 
