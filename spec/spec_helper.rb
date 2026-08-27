@@ -47,8 +47,6 @@ end
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
-  # Truncate once at boot to clear anything a killed run left behind, then
-  # wrap each example in a transaction so nothing leaks between examples.
   DatabaseCleaner.strategy = :truncation
   DatabaseCleaner.clean
   DatabaseCleaner.strategy = :transaction

@@ -77,10 +77,8 @@ start with `grey_test_` or the suite aborts before touching it.
 ## Test conventions
 
 - Specs mirror `lib/` under `spec/lib/grey/...`.
-- API specs use `Rack::Test::Methods`, `let(:app) { ... }`, build records in `before(:each)`
-  with `create!` and interpolate their ids into paths — never hardcode ids.
-- Each example runs in a rolled-back transaction (DatabaseCleaner); examples run in random
-  order. Reproduce an order failure with `bin/test --seed N`.
+- API specs use `Rack::Test::Methods`, `let(:app) { ... }`, build records in `before(:each)`.
+- Examples run in random order; reproduce an order failure with `bin/test --seed N`.
 - No factories/fixtures — records built inline.
 - Shared helpers in `spec/support/helpers.rb`: `response_body`, `stringify_keys`,
   `serialize_generic`.
