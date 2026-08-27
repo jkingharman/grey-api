@@ -7,7 +7,7 @@ class AddSearchToSpotTypes < ActiveRecord::Migration[5.2]
 
     # Add GIN index to col for search speed.
     execute <<-SQL
-      CREATE INDEX spot_types_tsv_gin ON spots \
+      CREATE INDEX spot_types_tsv_gin ON spot_types \
       USING GIN(tsv);
     SQL
 

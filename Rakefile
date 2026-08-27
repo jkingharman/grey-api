@@ -12,7 +12,7 @@ end
 
 namespace :db do
   task migrate: :environment do
-    ActiveRecord::MigrationContext.new('db/migrate').migrate(ENV['VERSION'].to_i)
+    ActiveRecord::MigrationContext.new('db/migrate').migrate(ENV['VERSION']&.to_i)
   end
 
   # @todo: fix.

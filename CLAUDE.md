@@ -25,12 +25,12 @@ classes mounted in `lib/grey/api_aggregator.rb` (one Grape class per resource un
 ## Run / test / migrate
 
 - Run locally: `bundle exec rackup config.ru` (port 9292). Procfile uses `-p $PORT`.
-- All tests: `rspec -fd`
-- Single test: `rspec path/to/spec.rb:LINE` or `rspec -e "description"`
-- Migrate: `rake environment && rake db:migrate VERSION=<timestamp>` — the custom rake task
-  REQUIRES `VERSION` (the latest migration's timestamp, i.e. the newest file in
-  `db/migrate/`); without it nothing migrates. `rake db:rollback` is known-broken
-  (`@todo: fix` in Rakefile).
+- All tests: `bin/test` — creates the test DB if absent, migrates it, runs rspec. Green
+  from a cold clone with no env vars set. Args pass through: `bin/test -fd`.
+- Single test: `bin/test path/to/spec.rb:LINE` or `bin/test -e "description"`. Plain
+  `bundle exec rspec` also works with no env vars once the DB exists.
+- Migrate: `rake db:migrate` (defaults to latest; `VERSION=<timestamp>` to target one).
+  `rake db:rollback` is known-broken (`@todo: fix` in Rakefile).
 
 ## Required env vars (no defaults, no .env file)
 
@@ -38,10 +38,13 @@ classes mounted in `lib/grey/api_aggregator.rb` (one Grape class per resource un
   boot if unset (`lib/grey/config.rb`). Read at boot in `config.ru`, `spec_helper.rb`, `Rakefile`.
 - `API_KEY` — HTTP Basic auth secret for write ops (POST/PUT/DELETE). Reads are public.
   Raised lazily, when an auth check / write actually runs.
-- `RACK_ENV` — optional, defaults to `production`. Specs force it to `test`.
+- `RACK_ENV` — optional, defaults to `production`.
 
-To run the suite locally these must be set, e.g.:
-`DATABASE_URL="postgres:///grey-api-test" API_KEY="dummy" RACK_ENV="test" bundle exec rspec -fd`
+**Tests need none of these.** `spec_helper.rb` sets all three before any require and
+**overrides** ambient `DATABASE_URL` with a derived name, `grey_test_<repo dir basename>`
+(`spec/support/test_database.rb`), so separate worktrees get separate DBs. Override the
+derivation with `TEST_DATABASE_URL` (e.g. CI with host/credentials); the DB name must still
+start with `grey_test_` or the suite aborts before touching it.
 
 ## Layout (under lib/grey/)
 
@@ -81,7 +84,5 @@ To run the suite locally these must be set, e.g.:
 
 ## Gotchas
 
-- Test and dev share one database (see TODO in `spec/spec_helper.rb`); DatabaseCleaner uses
-  `:truncation`. Don't point `DATABASE_URL` at data you care about when testing.
 - **No linter** (no RuboCop/Standard config) and **no CI** (no `.github/workflows`).
 - Swagger doc served at `/swagger_doc` (grape-swagger).
