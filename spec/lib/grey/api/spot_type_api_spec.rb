@@ -11,15 +11,13 @@ describe Grey::Api::SpotTypeAPI do
 
   let(:app) { Grey::Api::SpotTypeAPI }
 
-  before(:all) do
-    @spot_type_one = Grey::Models::SpotType.create(
-      id: 1,
+  before(:each) do
+    @spot_type_one = Grey::Models::SpotType.create!(
       name: 'Plaza',
       slug: 'plaza'
     )
 
-    @spot_type_two = Grey::Models::SpotType.create(
-      id: 2,
+    @spot_type_two = Grey::Models::SpotType.create!(
       name: 'Polejam',
       slug: 'polejam'
     )
@@ -30,7 +28,7 @@ describe Grey::Api::SpotTypeAPI do
       it 'returns all the spot types' do
         get '/v0/spot_types'
         expect(last_response.status).to eq 200
-        expect(response_body).to eq serialize(
+        expect(response_body).to match_array serialize(
           [@spot_type_one, @spot_type_two]
         )
       end
@@ -38,7 +36,7 @@ describe Grey::Api::SpotTypeAPI do
 
     context 'get by ID' do
       it 'returns the correct spot type' do
-        get '/v0/spot_types/1'
+        get "/v0/spot_types/#{@spot_type_one.id}"
         expect(last_response.status).to eq 200
         expect(response_body).to eq serialize(
           @spot_type_one

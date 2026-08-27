@@ -19,7 +19,7 @@ they can run unattended.
       absent, run rspec. Green from a cold clone with zero manual steps.
 - [x] Set `ENV['RACK_ENV'] = 'test'` (and defaults for `API_KEY`/`DATABASE_URL`) at the
       top of `spec_helper.rb`, before requires — `Config.rack_env` memoizes.
-- [ ] Kill order-dependence: interpolate created record IDs in API specs instead of
+- [x] Kill order-dependence: interpolate created record IDs in API specs instead of
       hardcoding (`get "/v0/spots/#{@spot_one.id}"`). Suite currently relies on
       truncation-at-boot sequence resets plus lucky file ordering.
 - [ ] Cover the untested middleware zone: unit-test `ApiLogLine` (fake emitter, assert
