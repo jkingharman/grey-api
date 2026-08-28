@@ -19,6 +19,10 @@ group :development do
   gem 'pry'
 end
 
+group :development, :test do
+  gem 'standard'
+end
+
 group :test do
   gem 'database_cleaner-active_record'
   gem 'rack-test'
