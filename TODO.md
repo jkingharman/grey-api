@@ -31,7 +31,7 @@ they can run unattended.
 
 ## 2. CI and lint
 
-- [ ] GitHub Actions: Postgres service container, run the suite on push/PR.
+- [x] GitHub Actions: Postgres service container, run the suite on push/PR.
 - [ ] Add Standard (or RuboCop) and wire it into CI.
 
 ## 3. Sharpen CLAUDE.md
