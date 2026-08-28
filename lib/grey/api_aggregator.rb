@@ -3,26 +3,26 @@
 module Grey
   class ApiAggregator < Grape::API
     rescue_from ActiveRecord::RecordInvalid do |e|
-      env['grey.error'] = e
+      env["grey.error"] = e
 
       Rack::Response.new(
-        [{ error: e.as_json }.to_json], 422, 'content-type' => 'text/error'
+        [{error: e.as_json}.to_json], 422, "content-type" => "text/error"
       )
     end
 
     rescue_from(*Grey::Api::Error::ERRORS) do |e|
-      env['grey.error'] = e
+      env["grey.error"] = e
 
       Rack::Response.new(
-        [{ error: e.message }.to_json], e.status, 'content-type' => 'text/error'
+        [{error: e.message}.to_json], e.status, "content-type" => "text/error"
       )
     end
 
     rescue_from :all do |e|
-      env['grey.error'] = e
-      error_msg = 'Internal server error'
+      env["grey.error"] = e
+      error_msg = "Internal server error"
 
-      Rack::Response.new([{ error: error_msg }.to_json], 500, 'content-type' => 'text/error')
+      Rack::Response.new([{error: error_msg}.to_json], 500, "content-type" => "text/error")
     end
 
     mount Grey::Api::SpotAPI
@@ -30,8 +30,8 @@ module Grey
 
     add_swagger_documentation \
       hide_documentation_path: true,
-      mount_path: '/swagger_doc',
+      mount_path: "/swagger_doc",
       markdown: false,
-      api_version: 'v0'
+      api_version: "v0"
   end
 end

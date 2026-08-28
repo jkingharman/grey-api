@@ -6,23 +6,23 @@ module Grey
     extend self
 
     def api_key
-      env!('API_KEY')
+      env!("API_KEY")
     end
 
     def database_url
-      env!('DATABASE_URL')
+      env!("DATABASE_URL")
     end
 
     def production_env?
-      rack_env == 'production'
+      rack_env == "production"
     end
 
     def test_env?
-      rack_env == 'test'
+      rack_env == "test"
     end
 
     def rack_env
-      @rack_env ||= (env('RACK_ENV') || 'production')
+      @rack_env ||= env("RACK_ENV") || "production"
     end
 
     def logger

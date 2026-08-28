@@ -5,7 +5,7 @@ module Grey
   # My log lines conform to the format of log messages produced by Heroku's router: "logfmt".
   class LogLineFmtr
     def initialize(datetime_format = nil)
-      @datetime_format = datetime_format || '%Y-%m-%d %H:%M:%S %z'
+      @datetime_format = datetime_format || "%Y-%m-%d %H:%M:%S %z"
     end
 
     def call(severity, datetime, progname, msg)
@@ -21,7 +21,7 @@ module Grey
       msg.collect do |key, value|
         value = add_quotes(escape_newlines(value))
         %(#{key}=#{value})
-      end.join(' ')
+      end.join(" ")
     end
 
     def add_quotes(msg)
@@ -33,15 +33,11 @@ module Grey
     end
 
     def needs_quotes(msg)
-      if /[^a-zA-Z0-9\-\.]/.match?(msg.to_s)
-        true
-      else
-        false
-      end
+      /[^a-zA-Z0-9\-.]/.match?(msg.to_s) || false
     end
 
     def escape_newlines(msg)
-      msg.to_s.gsub(/\n/, '\\n')
+      msg.to_s.gsub("\n", '\\n')
     end
   end
 

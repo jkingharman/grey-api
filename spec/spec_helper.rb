@@ -3,21 +3,21 @@
 # Environment must be set before anything reads Grey::Config (it memoises).
 # DATABASE_URL is overridden unconditionally: the ambient value is the dev DB,
 # and DatabaseCleaner truncates whatever we connect to.
-require_relative 'support/test_database'
-ENV['RACK_ENV'] = 'test'
-ENV['API_KEY'] ||= 'test-api-key'
-ENV['DATABASE_URL'] = TestDatabase.url
+require_relative "support/test_database"
+ENV["RACK_ENV"] = "test"
+ENV["API_KEY"] ||= "test-api-key"
+ENV["DATABASE_URL"] = TestDatabase.url
 
-require 'bundler/setup'
+require "bundler/setup"
 Bundler.require
 
 # Add lib to paths for ease.
-$LOAD_PATH << './lib'
-require 'grey'
+$LOAD_PATH << "./lib"
+require "grey"
 
-require 'rack/test'
-require 'database_cleaner/active_record'
-require './spec/support/helpers'
+require "rack/test"
+require "database_cleaner/active_record"
+require "./spec/support/helpers"
 
 # Guard on the database we actually connected to, not the one the URL names.
 # Connecting is harmless; the truncation in RSpec.configure below is not.
@@ -27,7 +27,7 @@ begin
 rescue ActiveRecord::NoDatabaseError
   abort "Test database at #{Grey::Config.database_url} does not exist. Run bin/test to provision it."
 end
-unless db_name.start_with?('grey_test_')
+unless db_name.start_with?("grey_test_")
   abort "Refusing to run specs against #{db_name.inspect}: test DB names must start with grey_test_."
 end
 

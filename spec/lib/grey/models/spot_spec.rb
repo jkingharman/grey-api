@@ -1,14 +1,13 @@
 # frozen_string_literal: true
 
-require_relative '../../../spec_helper'
+require_relative "../../../spec_helper"
 
 describe Grey::Models::Spot do
-
   let(:spot_type) do
     Grey::Models::SpotType.new(
       id: 3,
-      name: 'Ledge',
-      slug: 'ledge',
+      name: "Ledge",
+      slug: "ledge",
       spots: []
     )
   end

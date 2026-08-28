@@ -9,7 +9,7 @@ module Grey
 
       def call(env)
         status, headers, response = @app.call(env)
-        env['REQUEST_ID'] = SecureRandom.uuid
+        env["REQUEST_ID"] = SecureRandom.uuid
 
         [status, headers, response]
       end

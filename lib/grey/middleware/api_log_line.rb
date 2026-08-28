@@ -2,7 +2,7 @@
 
 module Grey
   module Middleware
-  # Emits a single log line that displays as much relevant info for a request as possible.
+    # Emits a single log line that displays as much relevant info for a request as possible.
     class ApiLogLine
       LOGFIELDS = %i[
         error_class
@@ -22,7 +22,7 @@ module Grey
       class LogLine
         def self.create_log_field(name)
           unless name.is_a?(Symbol)
-            raise ArgumentError, 'Expected first argument to be a symbol'
+            raise ArgumentError, "Expected first argument to be a symbol"
           end
 
           define_method(:"#{name}=") do |val|
@@ -55,7 +55,7 @@ module Grey
           begin
             line = LogLine.new
 
-            if error = env['grey.error']
+            if error = env["grey.error"]
               line.error_class = error.class.name
               line.error_message = error.message
 
@@ -64,14 +64,14 @@ module Grey
 
             # request info
             request = Rack::Request.new(env)
-            line.request_id = env['REQUEST_ID']
+            line.request_id = env["REQUEST_ID"]
             line.request_ip = request.ip
             line.request_method = request.request_method
             line.request_path = request.path_info
             line.request_user_agent = request.user_agent
 
             # response info
-            if length = headers['Content-Length']
+            if length = headers["Content-Length"]
               line.response_length = length.to_i
             end
             line.response_status = status
@@ -80,7 +80,7 @@ module Grey
             line.timing_total_elapsed = (Time.now - start).to_f
 
             @emitter.call(line.to_h)
-          rescue StandardError => e
+          rescue
             env["rack.errors"].write "ApiLogLine failed to emit log"
           end
         end

@@ -15,19 +15,19 @@ module Grey
 
       class NotFound < Error
         def initialize(message = nil)
-          super((message || 'Not found'), 404)
+          super(message || "Not found", 404)
         end
       end
 
       class MissingParam < Error
         def initialize(message = nil)
-          super((message || 'Missing Params'), 422)
+          super(message || "Missing Params", 422)
         end
       end
 
       class Unauthorized < Error
         def initialize(message = nil)
-          super((message || 'Unauthorized'), 401)
+          super(message || "Unauthorized", 401)
         end
       end
 

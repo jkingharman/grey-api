@@ -3,7 +3,7 @@
 module Grey
   module Helpers
     def debug
-      require 'pry'
+      require "pry"
       binding.pry
     end
 

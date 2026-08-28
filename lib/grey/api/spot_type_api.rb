@@ -3,7 +3,7 @@
 module Grey
   module Api
     class SpotTypeAPI < Grape::API
-      version 'v0', using: :path
+      version "v0", using: :path
 
       format :json
 
@@ -24,12 +24,12 @@ module Grey
           serialize(Models::SpotType.all)
         end
 
-        get 'search' do
+        get "search" do
           spots = Models::SpotType.search_by_name(params[:query])
           serialize(spots)
         end
 
-        get ':id' do
+        get ":id" do
           spot_type = Models::SpotType.find_by(id: params[:id]) || raise(Error::NotFound)
           serialize(spot_type)
         end
