@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../../../spec_helper'
+require_relative "../../../spec_helper"
 
 describe Grey::Api::SpotTypeAPI do
   include Rack::Test::Methods
@@ -13,20 +13,20 @@ describe Grey::Api::SpotTypeAPI do
 
   before(:each) do
     @spot_type_one = Grey::Models::SpotType.create!(
-      name: 'Plaza',
-      slug: 'plaza'
+      name: "Plaza",
+      slug: "plaza"
     )
 
     @spot_type_two = Grey::Models::SpotType.create!(
-      name: 'Polejam',
-      slug: 'polejam'
+      name: "Polejam",
+      slug: "polejam"
     )
   end
 
-  describe 'spot_types' do
-    context 'get all' do
-      it 'returns all the spot types' do
-        get '/v0/spot_types'
+  describe "spot_types" do
+    context "get all" do
+      it "returns all the spot types" do
+        get "/v0/spot_types"
         expect(last_response.status).to eq 200
         expect(response_body).to match_array serialize(
           [@spot_type_one, @spot_type_two]
@@ -34,8 +34,8 @@ describe Grey::Api::SpotTypeAPI do
       end
     end
 
-    context 'get by ID' do
-      it 'returns the correct spot type' do
+    context "get by ID" do
+      it "returns the correct spot type" do
         get "/v0/spot_types/#{@spot_type_one.id}"
         expect(last_response.status).to eq 200
         expect(response_body).to eq serialize(

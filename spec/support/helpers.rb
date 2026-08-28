@@ -3,8 +3,8 @@
 module Grey
   module Helpers
     def debug
-      require 'pry'
-      binding.pry
+      require "pry"
+      binding.pry # standard:disable Lint/Debugger
     end
 
     def response_body

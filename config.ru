@@ -1,19 +1,19 @@
 # frozen_string_literal: true
 
-require 'bundler/setup'
+require "bundler/setup"
 Bundler.require
 
 # Add lib to paths for ease.
-$LOAD_PATH << './lib'
+$LOAD_PATH << "./lib"
 
-require 'grey'
+require "grey"
 
 ActiveRecord::Base.establish_connection(Grey::Config.database_url)
 
 use Rack::Cors do
   allow do
-    origins '*'
-    resource '*', headers: :any, methods: %i[get post put delete]
+    origins "*"
+    resource "*", headers: :any, methods: %i[get post put delete]
   end
 end
 

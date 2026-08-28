@@ -3,7 +3,7 @@
 class AddSearchToSpots < ActiveRecord::Migration[5.2]
   def up
     # Add col to cache lexemes and search against.
-    add_column :spots, :tsv, 'TSVector'
+    add_column :spots, :tsv, "TSVector"
 
     # Add GIN index to col for search speed.
     execute <<-SQL

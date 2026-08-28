@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bin/lint-hook",
+            "timeout": 30,
+            "statusMessage": "Linting"
+          }
+        ]
+      }
+    ]
+  }
+}

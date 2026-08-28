@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../../../spec_helper'
+require_relative "../../../spec_helper"
 
 describe Grey::Api::SpotAPI do
   include Rack::Test::Methods
@@ -11,32 +11,32 @@ describe Grey::Api::SpotAPI do
 
   let(:app) { Grey::Api::SpotAPI }
   let(:env) do
-    { 'HTTP_AUTHORIZATION' => 'Basic ' + Base64.encode64("user:#{Grey::Config.api_key}") }
+    {"HTTP_AUTHORIZATION" => "Basic " + Base64.encode64("user:#{Grey::Config.api_key}")}
   end
 
   before(:each) do
     @spot_type = Grey::Models::SpotType.create!(
-      name: 'Plaza',
-      slug: 'plaza'
+      name: "Plaza",
+      slug: "plaza"
     )
 
     @spot_one = Grey::Models::Spot.create!(
-      name: 'Fredstone',
-      slug: 'fredstone',
+      name: "Fredstone",
+      slug: "fredstone",
       spot_type: @spot_type
     )
 
     @spot_two = Grey::Models::Spot.create!(
-      name: 'Pall',
-      slug: 'pall',
+      name: "Pall",
+      slug: "pall",
       spot_type: @spot_type
     )
   end
 
-  describe 'spots' do
-    context 'get all' do
-      it 'returns all the spots' do
-        get '/v0/spots'
+  describe "spots" do
+    context "get all" do
+      it "returns all the spots" do
+        get "/v0/spots"
         expect(last_response.status).to eq 200
         expect(response_body).to match_array serialize(
           [@spot_one, @spot_two]
@@ -44,8 +44,8 @@ describe Grey::Api::SpotAPI do
       end
     end
 
-    context 'get by ID' do
-      it 'returns the correct spot' do
+    context "get by ID" do
+      it "returns the correct spot" do
         get "/v0/spots/#{@spot_one.id}"
         expect(last_response.status).to eq 200
         expect(response_body).to eq serialize(
@@ -54,69 +54,69 @@ describe Grey::Api::SpotAPI do
       end
     end
 
-    context 'post with attr' do
-      it 'fails without auth' do
+    context "post with attr" do
+      it "fails without auth" do
         spot_attr = serialize(@spot_one)
 
-        expect { post '/v0/spots/', spot: spot_attr }.to raise_error(
+        expect { post "/v0/spots/", spot: spot_attr }.to raise_error(
           Grey::Api::Error::Unauthorized
         )
       end
 
-      it 'creates a new spot' do
+      it "creates a new spot" do
         new_spot_attr = serialize(
           Grey::Models::Spot.new(
-            name: 'SB',
-            slug: 'sb',
+            name: "SB",
+            slug: "sb",
             spot_type: @spot_type
           )
         )
-        new_spot_attr['spot_type'] = 'plaza'
+        new_spot_attr["spot_type"] = "plaza"
 
-        post '/v0/spots/', { spot: new_spot_attr }, env
+        post "/v0/spots/", {spot: new_spot_attr}, env
         expect(last_response.status).to eq 201
         expect(response_body).to eq(
           stringify_keys(
-            id: response_body['id'],
-            name: 'SB',
-            slug: 'sb',
-            spot_type: response_body['spot_type']
+            id: response_body["id"],
+            name: "SB",
+            slug: "sb",
+            spot_type: response_body["spot_type"]
           )
         )
       end
     end
 
-    context 'put with attr' do
-      it 'fails without auth' do
-        update_attr = stringify_keys(name: 'New name', slug: 'new_name')
+    context "put with attr" do
+      it "fails without auth" do
+        update_attr = stringify_keys(name: "New name", slug: "new_name")
         expect { put "/v0/spots/#{@spot_one.id}", spot: update_attr }.to raise_error(
           Grey::Api::Error::Unauthorized
         )
       end
 
-      it 'updates the spot' do
-        update_attr = stringify_keys(name: 'New name', slug: 'new_name')
+      it "updates the spot" do
+        update_attr = stringify_keys(name: "New name", slug: "new_name")
 
-        put "/v0/spots/#{@spot_one.id}", { spot: update_attr }, env
+        put "/v0/spots/#{@spot_one.id}", {spot: update_attr}, env
         expect(response_body).to eq(
           stringify_keys(
-            id: response_body['id'],
-            name: 'New name',
-            slug: 'new_name',
-            spot_type: response_body['spot_type']
+            id: response_body["id"],
+            name: "New name",
+            slug: "new_name",
+            spot_type: response_body["spot_type"]
           )
         )
       end
     end
 
-    context 'delete by ID' do
-      it 'fails without auth' do
+    context "delete by ID" do
+      it "fails without auth" do
         expect { delete "/v0/spots/#{@spot_one.id}", {} }.to raise_error(
           Grey::Api::Error::Unauthorized
         )
       end
 
-      it 'delete the correct spot' do
+      it "delete the correct spot" do
         delete "/v0/spots/#{@spot_one.id}", {}, env
         expect(last_response.status).to eq 200
         expect(response_body).to eq({}.to_json)

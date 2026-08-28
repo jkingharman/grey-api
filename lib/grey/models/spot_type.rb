@@ -4,13 +4,14 @@ module Grey
   module Models
     class SpotType < ActiveRecord::Base
       include PgSearch::Model
+
       has_many :spots
-      before_validation { self.slug = self.slug.downcase }
+      before_validation { self.slug = slug.downcase }
 
       validates_presence_of :name, :slug
       validates_uniqueness_of :name, :slug
-      validates :slug, format: { with: /^[a-z0-9][a-z0-9-]*[a-z0-9]$/,
-        message: "Invalid slug", multiline: true }
+      validates :slug, format: {with: /^[a-z0-9][a-z0-9-]*[a-z0-9]$/,
+                                message: "Invalid slug", multiline: true}
 
       pg_search_scope(:search_by_name, lambda do |query|
         {
@@ -18,7 +19,7 @@ module Grey
           query: query,
           using: {
             tsearch: {
-              tsvector_column: 'tsv'
+              tsvector_column: "tsv"
             }
           }
         }

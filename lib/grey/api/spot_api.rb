@@ -3,7 +3,7 @@
 module Grey
   module Api
     class SpotAPI < Grape::API
-      version 'v0', using: :path
+      version "v0", using: :path
 
       format :json
 
@@ -24,20 +24,20 @@ module Grey
           serialize(Models::Spot.all)
         end
 
-        get 'search' do
+        get "search" do
           spots = Models::Spot.search_by_name(params[:query])
           serialize(spots)
         end
 
-        get 'latest' do
+        get "latest" do
           serialize(Models::Spot.latest)
         end
 
-        get 'random' do
+        get "random" do
           serialize(Models::Spot.random)
         end
 
-        get ':id' do
+        get ":id" do
           spot = Models::Spot.find_by(id: params[:id]) || raise(Error::NotFound)
           serialize(spot)
         end
@@ -52,7 +52,7 @@ module Grey
           serialize(spot)
         end
 
-        put ':id' do
+        put ":id" do
           authorize!
           required_params!(:spot)
           spot = Models::Spot.find_by(id: params[:id]) || raise(Error::NotFound)
@@ -62,7 +62,7 @@ module Grey
           serialize(spot)
         end
 
-        delete ':id' do
+        delete ":id" do
           authorize!
           spot = Models::Spot.find_by(id: params[:id]) || raise(Error::NotFound)
           spot.destroy

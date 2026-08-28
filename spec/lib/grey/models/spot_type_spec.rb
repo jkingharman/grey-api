@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
-require_relative '../../../spec_helper'
+require_relative "../../../spec_helper"
 
 describe Grey::Models::Spot do
-
   it "validates slug format" do
     expect(Grey::Models::SpotType.new(name: "Handrail", slug: "handrail").valid?).to be true
     expect(Grey::Models::SpotType.new(name: "Jumpramp", slug: "jumpramp22").valid?).to be true
