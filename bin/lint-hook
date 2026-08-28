@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Claude Code PostToolUse hook: autocorrect style on any Ruby file Claude
+# edits. Reads the hook's JSON payload on stdin. Always exits 0 so a lint
+# failure never blocks the edit; remaining offences are caught by bin/lint.
+set -uo pipefail
+cd "$(dirname "$0")/.."
+
+file="$(jq -r '.tool_input.file_path // empty')"
+[ -n "$file" ] || exit 0
+
+case "$file" in
+  *.rb|*.rake|*/Gemfile|*/Rakefile|*/config.ru|*/bin/console|*/bin/test|*/bin/lint) ;;
+  *) exit 0 ;;
+esac
+
+bin/lint --fix "$file" >/dev/null 2>&1 || true
+exit 0
