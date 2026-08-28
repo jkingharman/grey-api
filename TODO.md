@@ -32,7 +32,7 @@ they can run unattended.
 ## 2. CI and lint
 
 - [x] GitHub Actions: Postgres service container, run the suite on push/PR.
-- [ ] Add Standard (or RuboCop) and wire it into CI.
+- [x] Add Standard (or RuboCop) and wire it into CI.
 
 ## 3. Sharpen CLAUDE.md
 
@@ -70,7 +70,7 @@ Repo-level config for the agent tooling itself — cheap, high leverage.
 - [ ] Project `.claude/settings.json` with a permissions allowlist (`bundle exec
       rspec`, `rake`, `psql`, `bin/test`, ...) so agents run autonomously without
       permission-prompt babysitting. `/fewer-permission-prompts` automates this.
-- [ ] Hook that runs the linter on file edits (once §2 lands) — turns style
+- [x] Hook that runs the linter on file edits (once §2 lands) — turns style
       conventions from prose agents drift from into mechanical enforcement.
 - [ ] Exercise backlog: convert "Later" items and feature ideas into well-scoped
       GitHub issues with acceptance criteria. Agentic workflows are only as good

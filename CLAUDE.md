@@ -27,6 +27,8 @@ classes mounted in `lib/grey/api_aggregator.rb` (one Grape class per resource un
 - Run locally: `bundle exec rackup config.ru` (port 9292). Procfile uses `-p $PORT`.
 - All tests: `bin/test` — creates the test DB if absent, migrates it, runs rspec. Green
   from a cold clone with no env vars set. Args pass through: `bin/test -fd`.
+- Lint: `bin/lint` (Standard, no config file); `bin/lint --fix` autocorrects. A Claude Code
+  hook (`.claude/settings.json` -> `bin/lint-hook`) autocorrects any Ruby file Claude edits.
 - Single test: `bin/test path/to/spec.rb:LINE` or `bin/test -e "description"`. Plain
   `bundle exec rspec` also works with no env vars once the DB exists.
 - Migrate: `rake db:migrate` (defaults to latest; `VERSION=<timestamp>` to target one).
@@ -85,6 +87,6 @@ start with `grey_test_` or the suite aborts before touching it.
 
 ## Gotchas
 
-- **No linter** (no RuboCop/Standard config). CI runs `bin/test` on PRs and pushes to
-  master (`.github/workflows/test.yml`, Postgres 16 service container).
+- CI runs `bin/test` and `bin/lint` on PRs and pushes to master
+  (`.github/workflows/test.yml`, Postgres 16 service container).
 - Swagger doc served at `/swagger_doc` (grape-swagger).
