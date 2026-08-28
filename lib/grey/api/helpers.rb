@@ -5,7 +5,7 @@ module Grey
     module Helpers
       def debug
         require "pry"
-        binding.pry
+        binding.pry # standard:disable Lint/Debugger
       end
 
       def authorize!

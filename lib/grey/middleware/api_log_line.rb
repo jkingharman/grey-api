@@ -55,7 +55,7 @@ module Grey
           begin
             line = LogLine.new
 
-            if error = env["grey.error"]
+            if (error = env["grey.error"])
               line.error_class = error.class.name
               line.error_message = error.message
 
@@ -71,7 +71,7 @@ module Grey
             line.request_user_agent = request.user_agent
 
             # response info
-            if length = headers["Content-Length"]
+            if (length = headers["Content-Length"])
               line.response_length = length.to_i
             end
             line.response_status = status
