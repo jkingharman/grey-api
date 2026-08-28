@@ -85,5 +85,6 @@ start with `grey_test_` or the suite aborts before touching it.
 
 ## Gotchas
 
-- **No linter** (no RuboCop/Standard config) and **no CI** (no `.github/workflows`).
+- **No linter** (no RuboCop/Standard config). CI runs `bin/test` on PRs and pushes to
+  master (`.github/workflows/test.yml`, Postgres 16 service container).
 - Swagger doc served at `/swagger_doc` (grape-swagger).
