@@ -1,6 +1,8 @@
 # TODO
 
-**Rule: no feature work until the operational improvements below are done.**
+**Rule: no feature work until the feedback-loop items are done — §1 (middleware
+tests), §4 (broken wiring), and the §7 settings allowlist.** The rest (§5, §6,
+remaining §3) can interleave with features via the ladder in `docs/agentic-log.md`.
 The codebase's architecture is sound; what needs fixing is the operational shell
 around it — verification, tooling, and broken wiring. These also prepare the repo
 for agentic engineering, where fast trustworthy feedback loops are the ground truth.
@@ -72,10 +74,9 @@ Repo-level config for the agent tooling itself — cheap, high leverage.
       permission-prompt babysitting. `/fewer-permission-prompts` automates this.
 - [x] Hook that runs the linter on file edits (once §2 lands) — turns style
       conventions from prose agents drift from into mechanical enforcement.
-- [ ] Exercise backlog: convert "Later" items and feature ideas into well-scoped
-      GitHub issues with acceptance criteria. Agentic workflows are only as good
-      as the task definition; pre-scoped issues are the raw material for
-      practising plan mode, parallel agents, and review workflows.
+- [x] Exercise backlog — superseded by `docs/agentic-log.md` (technique ladder +
+      feature backlog). Driving work from GitHub issues is now listed there as a
+      technique to practise, not prep.
 
 ## Later / unblocked from features
 
