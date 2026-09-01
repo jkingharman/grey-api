@@ -12,12 +12,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Grey is instrumental: it exists so John can practise agentic engineering, not for its
 own sake. Operating rules:
 
-- Before starting a task, propose one Claude Code capability not yet recorded in
-  `docs/agentic-log.md` that fits the task, and say why it fits.
-- No feature ships without exercising a technique that isn't already in the log.
-- After each task, append a log entry (date, technique, feature, what broke, verdict).
-- Pair techniques with features from the backlog in `docs/agentic-log.md`; prefer
-  features with real structure over trivial CRUD.
+- Before starting a task, propose a technique x feature pairing from
+  `docs/agentic-backlog.md`, favouring techniques not practised recently. The backlog
+  is seed material, not a contract: if John rejects a pairing, propose another feature
+  or technique on the spot.
+- No feature ships without deliberately exercising a technique.
+- Features skew infrastructure / operational / architectural over CRUD.
 
 ## What this is
 
