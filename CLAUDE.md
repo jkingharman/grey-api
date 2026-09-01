@@ -7,6 +7,18 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 > source of truth in the repo rather than copying a snapshot that will rot. When you
 > need a current fact, read the source, don't trust a number transcribed here.
 
+## Why this project exists
+
+Grey is instrumental: it exists so John can practise agentic engineering, not for its
+own sake. Operating rules:
+
+- Before starting a task, propose a technique x feature pairing from
+  `docs/agentic-backlog.md`, favouring techniques not practised recently. The backlog
+  is seed material, not a contract: if John rejects a pairing, propose another feature
+  or technique on the spot.
+- No feature ships without deliberately exercising a technique.
+- Features skew infrastructure / operational / architectural over CRUD.
+
 ## What this is
 
 A **Grape API on plain Rack** — NOT Rails. ActiveRecord is used standalone for
