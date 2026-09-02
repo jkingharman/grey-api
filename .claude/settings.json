@@ -9,7 +9,11 @@
         "rubygems.org",
         "*.rubygems.org"
       ],
-      "allowLocalBinding": true
+      "allowLocalBinding": true,
+      "allowUnixSockets": [
+        "/tmp/.s.PGSQL.5432",
+        "/private/tmp/.s.PGSQL.5432"
+      ]
     }
   },
   "permissions": {
