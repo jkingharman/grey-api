@@ -103,4 +103,5 @@ start with `grey_test_` or the suite aborts before touching it.
   (`.github/workflows/test.yml`, Postgres 16 service container).
 - Swagger doc served at `/swagger_doc` (grape-swagger).
 - A `pr-reviewer` subagent (`.claude/agents/pr-reviewer.md`) reviews a PR against these
-  conventions and posts inline comments to GitHub. Run it on every PR before merge.
+  conventions and posts inline comments to GitHub. A hook (`bin/pr-open-hook`) prompts
+  the session to run it once when `gh pr create` succeeds; later pushes don't re-trigger.

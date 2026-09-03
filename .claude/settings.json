@@ -11,6 +11,16 @@
             "statusMessage": "Linting"
           }
         ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bin/pr-open-hook",
+            "timeout": 10
+          }
+        ]
       }
     ]
   }

@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# Claude Code PostToolUse hook on Bash: when a `gh pr create` succeeds, tell
+# the session to run the pr-reviewer agent on the new PR. Fires once, on open;
+# later pushes to the branch do not re-trigger it. Reads the hook's JSON
+# payload on stdin. Always exits 0.
+set -uo pipefail
+
+payload="$(cat)"
+command="$(jq -r '.tool_input.command // empty' <<<"$payload")"
+grep -Eq '\bgh pr create\b' <<<"$command" || exit 0
+
+url="$(jq -r '.tool_response | tostring' <<<"$payload" \
+  | grep -Eo 'https://github\.com/[^/ "]+/[^/ "]+/pull/[0-9]+' | head -1)"
+[ -n "$url" ] || exit 0
+
+jq -n --arg url "$url" '{
+  hookSpecificOutput: {
+    hookEventName: "PostToolUse",
+    additionalContext: ("A PR was just opened at " + $url + ". Invoke the pr-reviewer agent on it now, before doing anything else, and relay its findings to the user.")
+  }
+}'
+exit 0
