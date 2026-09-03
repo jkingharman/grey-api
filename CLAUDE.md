@@ -102,3 +102,5 @@ start with `grey_test_` or the suite aborts before touching it.
 - CI runs `bin/test` and `bin/lint` on PRs and pushes to master
   (`.github/workflows/test.yml`, Postgres 16 service container).
 - Swagger doc served at `/swagger_doc` (grape-swagger).
+- A `pr-reviewer` subagent (`.claude/agents/pr-reviewer.md`) reviews a PR against these
+  conventions and posts inline comments to GitHub. Run it on every PR before merge.
