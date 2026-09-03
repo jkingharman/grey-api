@@ -7,7 +7,9 @@ set -uo pipefail
 
 payload="$(cat)"
 command="$(jq -r '.tool_input.command // empty' <<<"$payload")"
-grep -Eq '\bgh pr create\b' <<<"$command" || exit 0
+# Anchor to the start of a command segment so a PR body that mentions
+# `gh pr create` in a heredoc does not trigger it.
+grep -Eq '(^|&&|\|\||;|\|)[[:space:]]*gh pr create\b' <<<"$command" || exit 0
 
 url="$(jq -r '.tool_response | tostring' <<<"$payload" \
   | grep -Eo 'https://github\.com/[^/ "]+/[^/ "]+/pull/[0-9]+' | head -1)"
