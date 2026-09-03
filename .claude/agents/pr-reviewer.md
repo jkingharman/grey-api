@@ -37,7 +37,9 @@ trip over a real bug while reading, report it. Do not go hunting for style nits.
    Read the PR title and body, and `git log --format='%s%n%n%b' <base>..HEAD` for the
    stated intent.
 2. Read `CLAUDE.md` in full.
-3. Get the diff with `git diff <base>...HEAD` (three dots). Then read every touched
+3. Run `git fetch origin <base>` so the base is current, then get the diff with
+   `git diff origin/<base>...HEAD` (three dots). A stale local base makes upstream
+   commits look like part of the PR. Then read every touched
    file in full with Read, not just the hunks. A convention violation is often visible
    only in the surrounding file: a missing pragma, a helper that already exists, a
    serializer the change bypasses.
@@ -72,10 +74,14 @@ Post exactly one review per invocation through the pulls reviews API, so finding
 appear as inline comments. The `gh pr review` porcelain cannot attach inline comments,
 which is why you call the API endpoint directly.
 
-Write the request body as JSON to a file under `$TMPDIR`, then post it:
+Pipe the request body to `gh api` from a quoted heredoc in the same command. Do not
+stage it in a file: `$TMPDIR` points at a different directory inside and outside the
+sandbox, so a file written in one is invisible to the other.
 
 ```
-gh api repos/{owner}/{repo}/pulls/<N>/reviews --input "$TMPDIR/review.json"
+gh api repos/{owner}/{repo}/pulls/<N>/reviews --input - <<'JSON'
+{ ... }
+JSON
 ```
 
 The JSON shape:
@@ -98,15 +104,17 @@ Rules for the post:
   `side: "RIGHT"` for added or context lines and `side: "LEFT"` for deleted lines. A
   finding about a line outside the diff goes in the review body instead, with its
   `file:line` reference. One unanchorable comment makes the whole request fail with 422.
-- Build the file with `jq -n --arg` or a quoted heredoc so markdown in the bodies is
-  escaped correctly.
+- If the post returns 422, move the rejected comments into the body and post once more.
+  That retry is the one exception to "one review per invocation".
+- Keep the heredoc quoted (`<<'JSON'`) so markdown and `$` in the bodies are not
+  interpreted by the shell, and escape double quotes and newlines inside JSON strings.
 
 The `gh` binary fails TLS verification under the Bash sandbox: it is a Go binary that
 does not trust the sandbox's filtering proxy. This is expected. Run each `gh` command
 with the Bash tool's `dangerouslyDisableSandbox: true` option, one command at a time.
 Each such call raises a permission prompt to the user; that gate is intentional because
-posting to GitHub is an outward-facing write. Do not work around it, do not retry the
-post inside the sandbox, and do not post through any other route. If the user declines
+posting to GitHub is an outward-facing write. Do not work around it, do not run `gh`
+inside the sandbox, and do not post through any other route. If the user declines
 the prompt, say so in your report and still return the findings.
 
 After posting, confirm with the review URL from the response.
