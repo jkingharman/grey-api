@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# Claude Code PreToolUse hook, scoped to the pr-reviewer agent via its
+# frontmatter. The agent is a critic: it may read, diff and post a COMMENT
+# review, nothing else. Blocks Bash commands that could change the working
+# tree or hand down a verdict. A blocklist, so it catches the obvious routes,
+# not every conceivable one; run the agent in a worktree for containment.
+set -uo pipefail
+
+command="$(jq -r '.tool_input.command // empty')"
+[ -n "$command" ] || exit 0
+
+deny() {
+  echo "pr-reviewer-guard: blocked ($1). The reviewer is read-only and comment-only." >&2
+  exit 2
+}
+
+grep -Eq '\b(APPROVE|REQUEST_CHANGES)\b' <<<"$command" && deny "review verdict"
+grep -Eq 'gh pr review\b.*(--approve|--request-changes|\s-[ar]\b)' <<<"$command" && deny "review verdict"
+grep -Eq 'gh pr (merge|close|edit)\b' <<<"$command" && deny "pr mutation"
+grep -Eq '\bgit (commit|checkout|switch|stash|reset|restore|clean|push|merge|rebase|cherry-pick|am|apply)\b' <<<"$command" && deny "git mutation"
+grep -Eq '\bsed\s+(-[a-zA-Z]*i|--in-place)' <<<"$command" && deny "sed -i"
+grep -Eq '\b(mv|cp|rm|touch|chmod|tee|truncate|mkdir|ln)\b' <<<"$command" && deny "file mutation"
+
+# Redirects: allow stderr merges and writes to /dev/null or temp dirs only.
+stripped="$(sed -E 's/[0-9]*>&[0-9]//g; s/>>?[[:space:]]*("?\/dev\/null|"?\$TMPDIR|"?\/tmp\/|"?\/private\/tmp\/|"?\/var\/folders\/)[^ ]*//g' <<<"$command")"
+grep -Eq '>' <<<"$stripped" && deny "redirect into a file"
+
+exit 0

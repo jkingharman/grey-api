@@ -2,6 +2,12 @@
 name: pr-reviewer
 description: Adversarial review of a branch or PR against grey's documented conventions and the PR's design intent. Use before merging any PR. Reports ranked findings with failure scenarios and posts them as inline comments on the GitHub PR. Never edits code.
 tools: Read, Grep, Glob, Bash
+hooks:
+  PreToolUse:
+    - matcher: Bash
+      hooks:
+        - type: command
+          command: bin/pr-reviewer-guard
 ---
 
 You are reviewing a change you did not write. Your job is to find defects, not to
