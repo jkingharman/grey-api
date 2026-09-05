@@ -36,23 +36,37 @@ classes mounted in `lib/grey/api_aggregator.rb` (one Grape class per resource un
 
 ## Run / test / migrate
 
-- Run locally: `bundle exec rackup config.ru` (port 9292). Procfile uses `-p $PORT`.
+- Scripts under `bin/` follow GitHub's scripts-to-rule-them-all layering: `bootstrap`
+  (deps only) -> `setup` (deps + `.env` + dev DB + migrate) -> `server` / `console` /
+  `test` / `lint`, each calling the layer beneath. All are idempotent and cold-start safe.
+- First run on a fresh clone: `bin/setup`. Writes a gitignored `.env`, creates
+  `grey_dev_<repo dir basename>`, migrates. Re-running only migrates.
+- Run locally: `bin/server` (port 9292; args pass to rackup). Procfile uses `-p $PORT`.
+- Console: `bin/console` (irb with the app booted).
 - All tests: `bin/test` — creates the test DB if absent, migrates it, runs rspec. Green
-  from a cold clone with no env vars set. Args pass through: `bin/test -fd`.
+  from a cold clone with no env vars set and no `.env`. Args pass through: `bin/test -fd`.
 - Lint: `bin/lint` (Standard, no config file); `bin/lint --fix` autocorrects. A Claude Code
   hook (`.claude/settings.json` -> `bin/lint-hook`) autocorrects any Ruby file Claude edits.
 - Single test: `bin/test path/to/spec.rb:LINE` or `bin/test -e "description"`. Plain
   `bundle exec rspec` also works with no env vars once the DB exists.
-- Migrate: `rake db:migrate` (defaults to latest; `VERSION=<timestamp>` to target one).
-  `rake db:rollback` is known-broken (`@todo: fix` in Rakefile).
+- Migrate: `bin/setup` migrates the dev DB. Bare `rake db:create` / `rake db:migrate` need
+  `DATABASE_URL` in the shell (`set -a; . ./.env; set +a`). `VERSION=<timestamp>` targets
+  one. `rake db:rollback` is known-broken (`@todo: fix` in Rakefile).
 
-## Required env vars (no defaults, no .env file)
+## Required env vars
 
-- `DATABASE_URL` — Postgres connection string. **Mandatory** — `Grey::Config` raises at
-  boot if unset (`lib/grey/config.rb`). Read at boot in `config.ru`, `spec_helper.rb`, `Rakefile`.
+Rule: **no secret and no connection string gets a default in code.** `Grey::Config`
+raises when a var is missing (`lib/grey/config.rb`) and that must stay. Dev values live in
+a per-checkout `.env` that `bin/setup` generates and git ignores; only `bin/` scripts read
+it (shell `source`, no dotenv gem). Prod gets real env vars.
+
+- `DATABASE_URL` — Postgres connection string. **Mandatory** — raised at boot by
+  `lib/grey/boot.rb`, the single boot path used by `config.ru`, `Rakefile`, `bin/console`
+  and `spec_helper.rb`.
 - `API_KEY` — HTTP Basic auth secret for write ops (POST/PUT/DELETE). Reads are public.
-  Raised lazily, when an auth check / write actually runs.
-- `RACK_ENV` — optional, defaults to `production`.
+  Raised lazily, when an auth check / write actually runs. `bin/setup` generates a random
+  dev key into `.env`.
+- `RACK_ENV` — optional, defaults to `production`. `.env` sets `development`.
 
 **Tests need none of these.** `spec_helper.rb` sets all three before any require and
 **overrides** ambient `DATABASE_URL` with a derived name, `grey_test_<repo dir basename>`
@@ -70,6 +84,8 @@ start with `grey_test_` or the suite aborts before touching it.
   dispatches on a type symbol.
 - `middleware/` — Rack middleware (`api_log_line`, `instrumentation`), wired in `config.ru`.
 - `config.rb` — env-var access via `Grey::Config`.
+- `boot.rb` — bundler, load path, `require "grey"`, `establish_connection`. Every entry
+  point requires this instead of repeating the preamble.
 
 ## Conventions
 

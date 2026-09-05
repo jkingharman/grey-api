@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# IRB with the app booted. Sources .env if present.
+# Boot the API. Sources .env if present; args pass through to rackup.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
@@ -11,4 +11,4 @@ if [ -f .env ]; then
   set +a
 fi
 
-exec bundle exec irb -r ./lib/grey/boot
+exec bundle exec rackup config.ru "$@"

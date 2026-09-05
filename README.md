@@ -12,28 +12,17 @@ Write operations need authentication, meaning you can't do them via the Swagger 
 
 ## Testing ##
 
-Grey has a test suite. To run it, first checkout this repo:
+Grey has a test suite. You need Ruby (see `.ruby-version`) and a local Postgres. Then:
 
 ```
 cd grey-api
-bundle install
+bin/setup
+bin/test
 ```
 
-You'll then need some setup. Create a Postgres database for the API by running (e.g): ```createdb grey-api-test``` from your shell. Next configure your environment:
-
-```
-export DATABASE_URL="[your test DB URL here]"
-export API_KEY="[your dummy API key here]"
-```
-
-Finally, migrate:
-
-```
-rake environment
-rake db:migrate VERSION=1554479266
-```
-
-Now you should be good to test: ```rspec -fd```
+`bin/setup` installs gems, writes a gitignored `.env`, and creates and migrates a dev
+database. `bin/test` provisions its own test database and runs rspec; args pass through
+(`bin/test -fd`). `bin/server` boots the API and `bin/console` opens irb.
 
 ## Core Dependencies ##
 
