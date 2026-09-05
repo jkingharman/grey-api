@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Install dependencies only. Idempotent; called by every other bin/ script.
+# Bundler enforces the Gemfile's ruby version, so no separate check here.
+set -euo pipefail
+cd "$(dirname "$0")/.."
+
+bundle check >/dev/null 2>&1 || bundle install
