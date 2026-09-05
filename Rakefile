@@ -1,22 +1,14 @@
 # frozen_string_literal: true
 
-require "bundler/setup"
-Bundler.require
-
-$LOAD_PATH << "./lib"
-require_relative "lib/grey"
-
-task :environment do
-  ActiveRecord::Base.establish_connection(Grey::Config.database_url)
-end
+require_relative "lib/grey/boot"
 
 namespace :db do
-  task migrate: :environment do
+  task :migrate do
     ActiveRecord::MigrationContext.new("db/migrate").migrate(ENV["VERSION"]&.to_i)
   end
 
   # @todo: fix.
-  task rollback: :environment do
+  task :rollback do
     ActiveRecord::MigrationContext.new("db/migrate").rollback(ENV["VERSION"].to_i)
   end
 end
