@@ -9,7 +9,7 @@ file="$(jq -r '.tool_input.file_path // empty')"
 [ -n "$file" ] || exit 0
 
 case "$file" in
-  *.rb|*.rake|*/Gemfile|*/Rakefile|*/config.ru|*/bin/console|*/bin/test|*/bin/lint) ;;
+  *.rb|*.rake|*/Gemfile|*/Rakefile|*/config.ru) ;;
   *) exit 0 ;;
 esac
 

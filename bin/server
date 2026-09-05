@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# IRB with the app booted and the environment from .env.
+# Boot the API with the environment from .env. Args pass through to rackup.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
@@ -10,4 +10,4 @@ set -a
 . ./.env
 set +a
 
-exec bundle exec irb -r ./lib/grey/boot
+exec bundle exec rackup config.ru "$@"
