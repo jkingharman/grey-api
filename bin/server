@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
-# Boot the API with the environment from .env. Args pass through to rackup.
+# Boot the API. Sources .env if present; args pass through to rackup.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
 bin/bootstrap
-[ -f .env ] || { echo "No .env found. Run bin/setup first." >&2; exit 1; }
-
-set -a
-. ./.env
-set +a
+# Dev only: production gets its env from the platform and has no .env.
+if [ -f .env ]; then
+  set -a
+  . ./.env
+  set +a
+fi
 
 exec bundle exec rackup config.ru "$@"
