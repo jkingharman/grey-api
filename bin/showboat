@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Showboat builds the demo documents under docs/demos/ (see CLAUDE.md,
+# Verification). Pinned so a format change upstream can't silently break
+# `verify`; bump deliberately. Runs via uvx, nothing installed globally.
+set -euo pipefail
+cd "$(dirname "$0")/.."
+
+exec uvx showboat@0.6.1 "$@"

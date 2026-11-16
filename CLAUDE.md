@@ -52,6 +52,8 @@ classes mounted in `lib/grey/api_aggregator.rb` (one Grape class per resource un
 - Migrate: `bin/setup` migrates the dev DB. Bare `rake db:create` / `rake db:migrate` need
   `DATABASE_URL` in the shell (`set -a; . ./.env; set +a`). `VERSION=<timestamp>` targets
   one. `rake db:rollback` is known-broken (`@todo: fix` in Rakefile).
+- Demo server: `bin/demo-server start|stop` runs the API on port 9393 in the background,
+  log in `tmp/demo-server.log`. For Showboat demos (see Verification), not for dev.
 
 ## Required env vars
 
@@ -112,6 +114,26 @@ start with `grey_test_` or the suite aborts before touching it.
 - No factories/fixtures — records built inline.
 - Shared helpers in `spec/support/helpers.rb`: `response_body`, `stringify_keys`,
   `serialize_generic`.
+
+## Verification
+
+Specs prove the code; a demo proves the running app. Every PR that changes app code
+(`lib/`, `config.ru`, `bin/`, `Gemfile`, `Rakefile`) carries a Showboat document at
+`docs/demos/<branch>.md`, built against the real stack, showing the change working. It is
+the manual check John would otherwise run by hand, delegated with a receipt: `exec`
+records real output, so the document cannot say what was hoped rather than what happened.
+
+- Build it: `bin/demo-server start`, then `bin/showboat init|note|exec` (`exec` takes a
+  language, e.g. `bin/showboat exec docs/demos/x.md bash 'curl -si localhost:9393/...'`),
+  then `bin/demo-server stop`. `bin/showboat --help` is complete.
+- Show structure, not values: pipe UUIDs and timestamps through `sed` so
+  `bin/showboat verify` can replay the document.
+- Keep it to what RSpec structurally cannot see — the real `config.ru` stack, the emitter,
+  puma, env wiring. Anything else belongs in `spec/`.
+- Enforced, not requested: a PreToolUse hook (`.claude/settings.json` -> `bin/demo-hook`)
+  refuses `git push` of a branch that changes app code without a demo containing at least
+  one exec block. Docs-only and spec-only branches are exempt.
+- Demos are evidence at review time and history afterwards; never update one after merge.
 
 ## Gotchas
 
