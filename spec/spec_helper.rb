@@ -8,20 +8,13 @@ ENV["RACK_ENV"] = "test"
 ENV["API_KEY"] ||= "test-api-key"
 ENV["DATABASE_URL"] = TestDatabase.url
 
-require "bundler/setup"
-Bundler.require
-
-# Add lib to paths for ease.
-$LOAD_PATH << "./lib"
-require "grey"
-
+require_relative "../lib/grey/boot"
 require "rack/test"
 require "database_cleaner/active_record"
-require "./spec/support/helpers"
+require_relative "support/helpers"
 
 # Guard on the database we actually connected to, not the one the URL names.
 # Connecting is harmless; the truncation in RSpec.configure below is not.
-ActiveRecord::Base.establish_connection(Grey::Config.database_url)
 begin
   db_name = ActiveRecord::Base.connection.current_database
 rescue ActiveRecord::NoDatabaseError

@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# Make a fresh checkout runnable: deps, a per-checkout .env, dev DB, migrations.
+# Idempotent. Never overwrites an existing .env.
+set -euo pipefail
+cd "$(dirname "$0")/.."
+
+bin/bootstrap
+
+if [ -f .env ]; then
+  echo ".env already exists, leaving it alone"
+else
+  # Same derivation as spec/support/test_database.rb, with a dev prefix.
+  suffix="$(ruby -e 'print File.basename(Dir.pwd).downcase.gsub(/[^a-z0-9]+/, "_")[0, 50]')"
+  api_key="$(ruby -rsecurerandom -e 'print SecureRandom.hex(16)')"
+  cat > .env <<ENV
+RACK_ENV=development
+DATABASE_URL=postgres:///grey_dev_${suffix}
+API_KEY=${api_key}
+ENV
+  echo "Wrote .env (gitignored) with a generated API_KEY"
+fi
+
+set -a
+. ./.env
+set +a
+
+bundle exec rake db:create db:migrate
+
+echo "Setup complete. Next: bin/server, bin/console or bin/test."

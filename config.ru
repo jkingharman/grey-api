@@ -1,14 +1,6 @@
 # frozen_string_literal: true
 
-require "bundler/setup"
-Bundler.require
-
-# Add lib to paths for ease.
-$LOAD_PATH << "./lib"
-
-require "grey"
-
-ActiveRecord::Base.establish_connection(Grey::Config.database_url)
+require_relative "lib/grey/boot"
 
 use Rack::Cors do
   allow do
