@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+# Claude Code PreToolUse hook (Bash): a `git push` of a branch that changes
+# app code is refused unless the branch also adds a Showboat demo under
+# docs/demos/ (see CLAUDE.md, Verification). The demo is the evidence the
+# change was run against the real stack, not just the specs. Reads the hook's
+# JSON payload on stdin.
+set -uo pipefail
+cd "$(dirname "$0")/.."
+
+cmd="$(jq -r '.tool_input.command // empty')"
+[ -n "$cmd" ] || exit 0
+printf '%s' "$cmd" | grep -qE '(^|[;&|[:space:]])git[[:space:]]+push([[:space:]]|$)' || exit 0
+
+deny() {
+  jq -n --arg r "$1" '{hookSpecificOutput:{hookEventName:"PreToolUse",permissionDecision:"deny",permissionDecisionReason:$r}}'
+  exit 0
+}
+
+base="$(git merge-base HEAD origin/master 2>/dev/null)" || exit 0
+changed="$(git diff --name-only "$base" HEAD)"
+
+# Only code that runs in the app needs a demo; docs and specs alone do not.
+printf '%s\n' "$changed" | grep -qE '^(lib/|config\.ru$|bin/|Gemfile|Rakefile)' || exit 0
+
+demos="$(printf '%s\n' "$changed" | grep -E '^docs/demos/[^/]+\.md$' | grep -v '/README\.md$')"
+[ -n "$demos" ] || deny "Branch changes app code but adds no demo under docs/demos/. Start bin/demo-server, record the check with bin/showboat, commit it, then push (CLAUDE.md, Verification)."
+
+# An init-only demo proves nothing: require at least one exec block.
+for demo in $demos; do
+  grep -q '^```' "$demo" && exit 0
+done
+deny "Demo under docs/demos/ has no exec block. Record at least one command with bin/showboat exec before pushing."
